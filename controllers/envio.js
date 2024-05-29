@@ -72,7 +72,7 @@ const enviosDelete = async (req, res = response) => {
 const enviosCliente = async (req, res = response) => {
     const { c_correo } = req.params;
     try {
-        const envios = await Envio.find({ correo: c_correo, estadoEnvio: { $ne: "Terminado" } });
+        const envios = await Envio.find({ correo: c_correo, estadoEnvio: { $ne: 'Terminado' } });
 
         if (!c_correo) {
             return res.status(404).json({ msg: 'Correo no encontrado' });
