@@ -81,7 +81,9 @@ const confirmarPassword = async (req, res = response) => {
         }
 
         if (usuario.password === password) {
-            return res.json({ msg: 'Contraseña correcta' });
+            res.json({
+                _id: usuario._id,
+            });
         } else {
             return res.status(400).json({ msg: 'Contraseña incorrecta' });
         }
@@ -164,8 +166,8 @@ const restablecerPassword = async (req, res = response) => {
 
 const usuarioUnico = async (req, res = response) => {
     try {
-        const { c_correo } = req.params;
-        const usuario = await Usuario.findOne({ correo : c_correo });
+        const { id_usuario } = req.params;
+        const usuario = await Usuario.findOne({ _id : id_usuario });
 
         if (!usuario) {
             return res.status(404).json({ msg: 'Usuario no encontrado' });
