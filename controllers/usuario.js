@@ -137,7 +137,7 @@ const recuperarPassword = async (req, res = response) => {
     }    
 };
 
-// Función para restablecer contraseña
+
 const restablecerPassword = async (req, res = response) => {
     const { correo, codigoAcceso, nuevaPassword } = req.body;
 
@@ -171,12 +171,21 @@ const usuarioUnico = async (req, res = response) => {
             return res.status(404).json({ msg: 'Usuario no encontrado' });
         }
 
-        res.json({ usuarios });
+        res.json({
+            _id: usuario._id,
+            nombre: usuario.nombre,
+            password: usuario.password,
+            correo: usuario.correo,
+            rol: usuario.rol,
+            _v: usuario._v,
+            codigoAcceso: usuario.codigoAcceso,
+        });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Error en el servidor al eliminar usuario' });
+        res.status(500).json({ msg: 'Error en el servidor al buscar usuario' });
     }
 };
+
 
 module.exports = {
     usuarioGet,
