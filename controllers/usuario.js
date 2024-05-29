@@ -176,9 +176,6 @@ const usuarioUnico = async (req, res = response) => {
             nombre: usuario.nombre,
             password: usuario.password,
             correo: usuario.correo,
-            rol: usuario.rol,
-            _v: usuario._v,
-            codigoAcceso: usuario.codigoAcceso,
         });
     } catch (error) {
         console.error(error);
