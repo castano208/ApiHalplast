@@ -6,7 +6,8 @@ const detalleVentaSchema = new Schema({
   medidaVenta: { type: String, required: true },
   descripcion: { type: String, required: true },
   cantidad: { type: Number, required: true },
-  color: { type: String, required: true }
+  color: { type: String, required: true },
+  precio: { type: Number, required: true }
 });
 
 const envioSchema = new Schema({

@@ -15,8 +15,8 @@ const enviosGet = async (req, res = response) => {
 };
 
 const enviosPost = async (req, res) => {
-    const { estadoEnvio, totalEnvio, direccionEnvio, correo, color, detalleVenta } = req.body;
-    const nuevoEnvio = new Envio({ estadoEnvio, totalEnvio, direccionEnvio, correo, color, detalleVenta });
+    const { estadoEnvio, totalEnvio, direccionEnvio, correo, detalleVenta } = req.body;
+    const nuevoEnvio = new Envio({ estadoEnvio, totalEnvio, direccionEnvio, correo, detalleVenta });
     try {
         await nuevoEnvio.save();
         res.json({ msg: 'Envío registrado correctamente' });
@@ -29,17 +29,17 @@ const enviosPost = async (req, res) => {
 const enviosPut = async (req, res = response) => {
     try {
         const { id_envio } = req.params;
-        const { estadoEnvio, totalEnvio, direccionEnvio, correo, color, detalleVenta } = req.body;
+        const { estadoEnvio, totalEnvio, direccionEnvio, correo, detalleVenta } = req.body;
         const _id = id_envio;
 
         // Validación de datos de entrada
-        if (!estadoEnvio || !totalEnvio || !direccionEnvio || !detalleVenta || !correo || !color) {
+        if (!estadoEnvio || !totalEnvio || !direccionEnvio || !detalleVenta || !correo) {
             return res.status(400).json({ msg: 'Por favor, proporcione los datos completos' });
         }
 
         const envio = await Envio.findOneAndUpdate(
             { _id },
-            { estadoEnvio, totalEnvio, direccionEnvio, correo, color, detalleVenta },
+            { estadoEnvio, totalEnvio, direccionEnvio, correo, detalleVenta },
             { new: true }
         );
 
