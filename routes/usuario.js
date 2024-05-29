@@ -8,6 +8,7 @@ const {
   confirmarPassword,
   recuperarPassword,
   restablecerPassword,
+  usuarioUnico,
 } = require('../controllers/usuario');
 
 // Ruta para obtener todos los envíos
@@ -27,5 +28,7 @@ router.post('/usuarios/confirmarPassword', confirmarPassword);
 router.post('/usuarios/recuperarPassword', recuperarPassword);
 
 router.post('/usuarios/restablecerPassword', restablecerPassword);
+
+router.post('/usuarios/:id_usuario', usuarioUnico);
 
 module.exports = router; 

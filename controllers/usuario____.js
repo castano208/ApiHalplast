@@ -39,7 +39,12 @@ const usuarioGet = (req, res = response) => {
       msg: "POST API RESTABLECER PASSWORD",
     });
   };
-  
+  const usuarioUnico = (req, res = response) => {
+    res.json({
+      msg: "GET API OBTNER USUARIO",
+    });
+  };
+
   module.exports = {
     usuarioGet,
     usuarioPost,
@@ -48,4 +53,5 @@ const usuarioGet = (req, res = response) => {
     confirmarPassword,
     recuperarPassword,
     restablecerPassword,
+    usuarioUnico,
   };

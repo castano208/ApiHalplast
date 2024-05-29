@@ -162,6 +162,22 @@ const restablecerPassword = async (req, res = response) => {
     }
 };
 
+const usuarioUnico = async (req, res = response) => {
+    try {
+        const { id_usuario } = req.params;
+        const usuario = await Usuario.findOne({ _id: id_usuario });
+
+        if (!usuario) {
+            return res.status(404).json({ msg: 'Usuario no encontrado' });
+        }
+
+        res.json({ usuarios });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error en el servidor al eliminar usuario' });
+    }
+};
+
 module.exports = {
     usuarioGet,
     usuarioPost,
@@ -170,4 +186,5 @@ module.exports = {
     confirmarPassword,
     recuperarPassword,
     restablecerPassword,
+    usuarioUnico,
 }
