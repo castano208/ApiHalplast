@@ -23,6 +23,12 @@ const enviosGet = (req, res = response) => {
       msg: "DELETE API",
     });
   };
+
+  const enviosCliente = (req, res = response) => {
+    res.json({
+      msg: "GET API PEDIDOS ASOCIADOS A UN CORREO",
+    });
+  };
   
   module.exports = {
     enviosGet,

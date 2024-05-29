@@ -68,9 +68,28 @@ const enviosDelete = async (req, res = response) => {
     }
 };
 
+
+const enviosCliente = async (req, res = response) => {
+    const { c_correo } = req.params;
+    try {
+        const envios = await Envio.find({ correo : c_correo });
+
+        if (!c_correo) {
+            return res.status(404).json({ msg: 'Correo no encontrado' });
+        }
+
+        res.json({
+            envios,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error al obtener los envíos' });
+    }
+};
 module.exports = {
     enviosGet,
     enviosPost,
     enviosPut,
-    enviosDelete
+    enviosDelete,
+    enviosCliente
 };

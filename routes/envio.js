@@ -5,6 +5,7 @@ const {
   enviosPost,
   enviosPut,
   enviosDelete,
+  enviosCliente,
 } = require('../controllers/envio');
 
 // Ruta para obtener todos los envíos
@@ -16,7 +17,8 @@ router.post('/envios', enviosPost);
 // Ruta para actualizar un envío existente por su ID
 router.put('/envios/:id_envio', enviosPut);
 
-// Ruta para eliminar un envío existente por su ID
 router.delete('/envios/:id_envio', enviosDelete);
+
+router.get('/envios/:c_correo', enviosCliente);
 
 module.exports = router;
