@@ -35,4 +35,5 @@ const enviosGet = (req, res = response) => {
     enviosPost,
     enviosPut,
     enviosDelete,
+    enviosCliente,
   };
