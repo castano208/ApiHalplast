@@ -164,8 +164,8 @@ const restablecerPassword = async (req, res = response) => {
 
 const usuarioUnico = async (req, res = response) => {
     try {
-        const { id_usuario } = req.params;
-        const usuario = await Usuario.findOne({ _id: id_usuario });
+        const { c_correo } = req.params;
+        const usuario = await Usuario.findOne({ correo : c_correo });
 
         if (!usuario) {
             return res.status(404).json({ msg: 'Usuario no encontrado' });

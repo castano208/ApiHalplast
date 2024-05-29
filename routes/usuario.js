@@ -29,6 +29,6 @@ router.post('/usuarios/recuperarPassword', recuperarPassword);
 
 router.post('/usuarios/restablecerPassword', restablecerPassword);
 
-router.get('/usuarios/:id_usuario', usuarioUnico);
+router.get('/usuarios/:c_correo', usuarioUnico);
 
 module.exports = router; 
