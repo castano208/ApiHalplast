@@ -71,20 +71,29 @@ const enviosDelete = async (req, res = response) => {
 
 const enviosCliente = async (req, res = response) => {
     const { c_correo } = req.params;
-    try {
-        const envios = await Envio.find({ correo: c_correo, estadoEnvio: { $ne: 'Terminado' } });
 
-        if (!c_correo) {
-            return res.status(404).json({ msg: 'Correo no encontrado' });
+    // Verificar si el correo está presente
+    if (!c_correo) {
+        return res.status(400).json({ msg: 'El correo es requerido' });
+    }
+
+    try {
+        // Realizar la búsqueda en la base de datos
+        const envios = await Envio.find({ correo: c_correo, estadoEnvio: { $ne: "Terminado" } });
+
+        // Verificar si se encontraron envíos
+        if (envios.length === 0) {
+            return res.status(404).json({ msg: 'No se encontraron envíos para el correo proporcionado' });
         }
 
+        // Devolver los envíos encontrados
         res.json({
             envios,
         });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Error al obtener los envíos' });
-    }
+        res.status(500).json({ msg: 'Error al obtener los envíos' });
+    }
 };
 
 module.exports = {
