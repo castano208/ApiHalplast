@@ -3,10 +3,10 @@ const Envio = require('../modules/envio');
 
 const enviosGet = async (req, res = response) => {
     try {
-        const { q, nombre, page = 1, limit } = req.query; // Extrae los parámetros de la consulta
-        const envios = await Envio.find(); // Consulta todos los documentos de la colección Envio
+        const { q, nombre, page = 1, limit } = req.query; 
+        const envios = await Envio.find(); 
         res.json({
-            envios, // Devuelve un objeto JSON con los envios obtenidos de la base de datos
+            envios, 
         });
     } catch (error) {
         console.error(error);
@@ -15,8 +15,8 @@ const enviosGet = async (req, res = response) => {
 };
 
 const enviosPost = async (req, res) => {
-    const { estadoEnvio, totalEnvio, direccionEnvio, correo, detalleVenta } = req.body;
-    const nuevoEnvio = new Envio({ estadoEnvio, totalEnvio, direccionEnvio, correo, detalleVenta });
+    const { estadoEnvio, totalEnvio, direccionEnvio, correo, fechaEntrega, detalleVenta } = req.body;
+    const nuevoEnvio = new Envio({ estadoEnvio, totalEnvio, direccionEnvio, correo, fechaEntrega, detalleVenta });
     try {
         await nuevoEnvio.save();
         res.json({ msg: 'Envío registrado correctamente' });
@@ -29,17 +29,17 @@ const enviosPost = async (req, res) => {
 const enviosPut = async (req, res = response) => {
     try {
         const { id_envio } = req.params;
-        const { estadoEnvio, totalEnvio, direccionEnvio, correo, detalleVenta } = req.body;
+        const { estadoEnvio, totalEnvio, direccionEnvio, correo, fechaEntrega, detalleVenta } = req.body;
         const _id = id_envio;
 
-        // Validación de datos de entrada
-        if (!estadoEnvio || !totalEnvio || !direccionEnvio || !detalleVenta || !correo) {
+
+        if (!estadoEnvio || !totalEnvio || !direccionEnvio || !detalleVenta || !correo ||  !fechaEntrega) {
             return res.status(400).json({ msg: 'Por favor, proporcione los datos completos' });
         }
 
         const envio = await Envio.findOneAndUpdate(
             { _id },
-            { estadoEnvio, totalEnvio, direccionEnvio, correo, detalleVenta },
+            { estadoEnvio, totalEnvio, direccionEnvio, correo, fechaEntrega, detalleVenta },
             { new: true }
         );
 
@@ -72,21 +72,18 @@ const enviosDelete = async (req, res = response) => {
 const enviosCliente = async (req, res = response) => {
     const { c_correo } = req.params;
 
-    // Verificar si el correo está presente
     if (!c_correo) {
         return res.status(400).json({ msg: 'El correo es requerido' });
     }
 
     try {
-        // Realizar la búsqueda en la base de datos
+
         const envios = await Envio.find({ correo: c_correo, estadoEnvio: { $ne: "Terminado" } });
 
-        // Verificar si se encontraron envíos
         if (envios.length === 0) {
             return res.status(404).json({ msg: 'No se encontraron envíos para el correo proporcionado' });
         }
 
-        // Devolver los envíos encontrados
         res.json({
             envios,
         });

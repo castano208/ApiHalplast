@@ -15,6 +15,7 @@ const envioSchema = new Schema({
   totalEnvio: { type: Number, required: true },
   direccionEnvio: { type: String, required: true },
   correo: { type: String, required: true },
+  fechaEntrega: { type: Date, required: true },
   detalleVenta: [detalleVentaSchema]
 });
 
