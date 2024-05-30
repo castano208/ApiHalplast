@@ -70,7 +70,7 @@ const usuarioDelete = async (req, res = response) => {
     }
 };
 
-// Función para confirmar contraseña
+
 const confirmarPassword = async (req, res = response) => {
     const { correo, password } = req.body;
 
@@ -83,6 +83,7 @@ const confirmarPassword = async (req, res = response) => {
         if (usuario.password === password) {
             res.json({
                 _id: usuario._id,
+                correo: usuario.correo,
             });
         } else {
             return res.status(400).json({ msg: 'Contraseña incorrecta' });
