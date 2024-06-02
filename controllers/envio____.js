@@ -30,7 +30,7 @@ const enviosGet = (req, res = response) => {
     });
   };
 
-  const todoEnviosCliente = (req, res = response) => {
+  const EnviosTerminadosCliente = (req, res = response) => {
     res.json({
       msg: "GET API PEDIDOS ASOCIADOS A UN CORREO",
     });
@@ -42,5 +42,5 @@ const enviosGet = (req, res = response) => {
     enviosPut,
     enviosDelete,
     enviosCliente,
-    todoEnviosCliente,
+    EnviosTerminadosCliente,
   };

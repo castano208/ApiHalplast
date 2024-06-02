@@ -69,19 +69,14 @@ const enviosDelete = async (req, res = response) => {
 
 const enviosCliente = async (req, res = response) => {
     const { c_correo } = req.params;
-
     if (!c_correo) {
         return res.status(400).json({ msg: 'El correo es requerido' });
     }
-
     try {
-
         const envios = await Envio.find({ correo: c_correo, estadoEnvio: { $ne: "Terminado" } });
-
         if (envios.length === 0) {
             return res.status(404).json({ msg: 'No se encontraron envíos para el correo proporcionado' });
         }
-
         res.json({
             envios,
         });
@@ -91,19 +86,16 @@ const enviosCliente = async (req, res = response) => {
     }
 };
 
-const todoEnviosCliente = async (req, res = response) => {
+const EnviosTerminadosCliente = async (req, res = response) => {
     const { c_correo } = req.params;
-
     if (!c_correo) {
         return res.status(400).json({ msg: 'El correo es requerido' });
     }
-
     try {
-        const envios = await Envio.find({ correo: c_correo});
+        const envios = await Envio.find({ correo: c_correo, estadoEnvio: "Terminado" });
         if (envios.length === 0) {
             return res.status(404).json({ msg: 'No se encontraron envíos para el correo proporcionado' });
         }
-
         res.json({
             envios,
         });
@@ -119,5 +111,5 @@ module.exports = {
     enviosPut,
     enviosDelete,
     enviosCliente,
-    todoEnviosCliente
+    EnviosTerminadosCliente
 };

@@ -19,6 +19,6 @@ router.delete('/envios/:id_envio', enviosDelete);
 
 router.get('/envios/:c_correo', enviosCliente);
 
-router.get('/envios/todos/:c_correo', todoEnviosCliente);
+router.get('/envios/terminados/:c_correo', todoEnviosCliente);
 
 module.exports = router;
