@@ -32,7 +32,6 @@ const enviosPut = async (req, res = response) => {
         const { estadoEnvio, totalEnvio, direccionEnvio, correo, fechaEntrega, detalleVenta } = req.body;
         const _id = id_envio;
 
-
         if (!estadoEnvio || !totalEnvio || !direccionEnvio || !detalleVenta || !correo ||  !fechaEntrega) {
             return res.status(400).json({ msg: 'Por favor, proporcione los datos completos' });
         }
@@ -68,7 +67,6 @@ const enviosDelete = async (req, res = response) => {
     }
 };
 
-
 const enviosCliente = async (req, res = response) => {
     const { c_correo } = req.params;
 
@@ -93,10 +91,33 @@ const enviosCliente = async (req, res = response) => {
     }
 };
 
+const todoEnviosCliente = async (req, res = response) => {
+    const { c_correo } = req.params;
+
+    if (!c_correo) {
+        return res.status(400).json({ msg: 'El correo es requerido' });
+    }
+
+    try {
+        const envios = await Envio.find({ correo: c_correo});
+        if (envios.length === 0) {
+            return res.status(404).json({ msg: 'No se encontraron envíos para el correo proporcionado' });
+        }
+
+        res.json({
+            envios,
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error al obtener los envíos' });
+    }
+};
+
 module.exports = {
     enviosGet,
     enviosPost,
     enviosPut,
     enviosDelete,
-    enviosCliente
+    enviosCliente,
+    todoEnviosCliente
 };

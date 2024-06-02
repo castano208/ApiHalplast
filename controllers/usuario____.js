@@ -1,4 +1,4 @@
-const { response } = require("express"); // Importa la función `response` desde el módulo express
+const { response } = require("express"); 
 
 const usuarioGet = (req, res = response) => {
     res.json({

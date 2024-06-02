@@ -1,4 +1,4 @@
-const { response } = require("express"); // Importa la función `response` desde el módulo express
+const { response } = require("express");
 
 const enviosGet = (req, res = response) => {
     res.json({
@@ -26,14 +26,21 @@ const enviosGet = (req, res = response) => {
 
   const enviosCliente = (req, res = response) => {
     res.json({
+      msg: "GET API PEDIDOS ASOCIADOS A UN CORREO QUE NO ESTEN TERMIANDOS",
+    });
+  };
+
+  const todoEnviosCliente = (req, res = response) => {
+    res.json({
       msg: "GET API PEDIDOS ASOCIADOS A UN CORREO",
     });
   };
-  
+
   module.exports = {
     enviosGet,
     enviosPost,
     enviosPut,
     enviosDelete,
     enviosCliente,
+    todoEnviosCliente,
   };

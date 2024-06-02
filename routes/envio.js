@@ -6,19 +6,19 @@ const {
   enviosPut,
   enviosDelete,
   enviosCliente,
+  todoEnviosCliente,
 } = require('../controllers/envio');
 
-// Ruta para obtener todos los envíos
 router.get('/envios', enviosGet);
 
-// Ruta para crear un nuevo envío
 router.post('/envios', enviosPost);
 
-// Ruta para actualizar un envío existente por su ID
 router.put('/envios/:id_envio', enviosPut);
 
 router.delete('/envios/:id_envio', enviosDelete);
 
 router.get('/envios/:c_correo', enviosCliente);
+
+router.get('/envios/todos/:c_correo', todoEnviosCliente);
 
 module.exports = router;

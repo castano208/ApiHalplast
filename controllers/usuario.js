@@ -70,7 +70,6 @@ const usuarioDelete = async (req, res = response) => {
     }
 };
 
-
 const confirmarPassword = async (req, res = response) => {
     const { correo, password } = req.body;
 
@@ -94,7 +93,6 @@ const confirmarPassword = async (req, res = response) => {
     }
 };
 
-// Función para recuperar contraseña
 const recuperarPassword = async (req, res = response) => {
     const { correo } = req.body;
 
@@ -108,7 +106,6 @@ const recuperarPassword = async (req, res = response) => {
         usuario.codigoAcceso = codigoAcceso;
         await usuario.save();
     
-        // Configurar el transporte de nodemailer
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -123,8 +120,6 @@ const recuperarPassword = async (req, res = response) => {
             text: `Su código de acceso es: ${codigoAcceso}`
         };
 
-    
-        // Enviar el correo
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.error(error);
@@ -139,7 +134,6 @@ const recuperarPassword = async (req, res = response) => {
         res.status(500).json({ msg: 'Error en el servidor al recuperar contraseña' });
     }    
 };
-
 
 const restablecerPassword = async (req, res = response) => {
     const { correo, codigoAcceso, nuevaPassword } = req.body;
@@ -185,7 +179,6 @@ const usuarioUnico = async (req, res = response) => {
         res.status(500).json({ msg: 'Error en el servidor al buscar usuario' });
     }
 };
-
 
 module.exports = {
     usuarioGet,
