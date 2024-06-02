@@ -6,7 +6,7 @@ const {
   enviosPut,
   enviosDelete,
   enviosCliente,
-  todoEnviosCliente,
+  EnviosTerminadosCliente,
 } = require('../controllers/envio');
 
 router.get('/envios', enviosGet);
@@ -19,6 +19,6 @@ router.delete('/envios/:id_envio', enviosDelete);
 
 router.get('/envios/:c_correo', enviosCliente);
 
-router.get('/envios/terminados/:c_correo', todoEnviosCliente);
+router.get('/envios/terminados/:c_correo', EnviosTerminadosCliente);
 
 module.exports = router;
