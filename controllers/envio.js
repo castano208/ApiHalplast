@@ -105,11 +105,29 @@ const EnviosTerminadosCliente = async (req, res = response) => {
     }
 };
 
+const EnviosDetalle = async (req, res = response) => {
+    const { id_envio } = req.params;
+    if (!id_envio) {
+        return res.status(400).json({ msg: 'El id es requerido' });
+    }
+    try {
+        const envio = await Envio.findById(id_envio).select('estadoEnvio totalEnvio direccionEnvio correo fechaEntrega detalleVenta');
+        if (!envio) {
+            return res.status(404).json({ msg: 'No se encontraron envíos para el id proporcionado' });
+        }
+        res.json(envio);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error al obtener los detalles del envio' });
+    }
+};
+
 module.exports = {
     enviosGet,
     enviosPost,
     enviosPut,
     enviosDelete,
     enviosCliente,
-    EnviosTerminadosCliente
+    EnviosTerminadosCliente,
+    EnviosDetalle
 };
