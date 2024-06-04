@@ -14,7 +14,7 @@ const tipoSchema = new Schema({
         required: true
     },
     motivos: {
-        type: [motivoSchema],
+        motivo: [motivoSchema],
         required: true
     }
 });

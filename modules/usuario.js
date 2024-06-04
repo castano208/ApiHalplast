@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Esquema para el modelo de Permiso
 const permisoSchema = new Schema({
     nombrePermiso: {
         type: String,
@@ -35,7 +34,6 @@ const usuarioSchema = new Schema({
     }
 });
 
-// Modelo de Usuario basado en el esquema anterior
 const Usuario = mongoose.model('Usuario', usuarioSchema);
 
 module.exports = Usuario;
