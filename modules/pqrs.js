@@ -6,12 +6,19 @@ const pqrsSchema = new Schema({
         type: String,
         required: true
     },
-    tipo: {
+    pedido: {
         type: String,
         required: true
     },
-    motivo: {
-        type: String,
+    razon: {
+        tipo: {
+            type: String,
+            required: true
+        },
+        motivo: {
+            type: String,
+            required: true
+        },
         required: true
     },
     descripcion: {

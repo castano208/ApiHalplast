@@ -12,12 +12,12 @@ const pqrsGet = async (req, res = response) => {
 };
 
 const pqrsPost = async (req, res) => {
-    const { remitente, tipo, motivo, descripcion } = req.body;
+    const { remitente, pedido, razon, descripcion } = req.body;
 
     const nuevaPQRS = new PQRS({
         remitente,
-        tipo,
-        motivo,
+        pedido,
+        razon,
         descripcion
     });
 
@@ -33,13 +33,13 @@ const pqrsPost = async (req, res) => {
 const pqrsPut = async (req, res = response) => {
     try {
         const { id_pqrs } = req.params;
-        const { remitente, tipo, motivo, descripcion } = req.body;
+        const { remitente, pedido, razon, descripcion } = req.body;
 
-        if (!remitente || !tipo || !motivo || !descripcion) {
+        if (!remitente || !pedido || !razon || !descripcion) {
             return res.status(400).json({ msg: 'Por favor, proporcione los datos completos' });
         }
 
-        const pqrs = await PQRS.findOneAndUpdate({ _id: id_pqrs }, { remitente, tipo, motivo, descripcion }, { new: true });
+        const pqrs = await PQRS.findOneAndUpdate({ _id: id_pqrs }, { remitente, pedido, razon, descripcion }, { new: true });
 
         if (!pqrs) {
             return res.status(404).json({ msg: 'PQRS no encontrado' });
