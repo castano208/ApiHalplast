@@ -24,10 +24,10 @@ const usuarioSchema = new Schema({
         required: true
     },
     codigoAcceso: {
-        type: String // Agregar el campo para el código de acceso
+        type: String
     },
     rol: {
-        permisos: [permisoSchema], // Campo embebido para los permisos del rol
+        permisos: [permisoSchema],
         extraPorcentaje: {
             type: Number,
             required: true
