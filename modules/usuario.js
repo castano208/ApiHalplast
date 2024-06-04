@@ -8,7 +8,6 @@ const permisoSchema = new Schema({
     }
 });
 
-// Esquema para el modelo de Usuario
 const usuarioSchema = new Schema({
     nombre: {
         type: String,

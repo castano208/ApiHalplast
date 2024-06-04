@@ -13,9 +13,7 @@ const tipoSchema = new Schema({
         type: String,
         required: true
     },
-    motivos: {
-        motivo: [motivoSchema],
-    }
+    motivos: [motivoSchema],
 });
 
 const Tipo = mongoose.model('Tipo', tipoSchema);
