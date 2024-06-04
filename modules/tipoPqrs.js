@@ -15,7 +15,6 @@ const tipoSchema = new Schema({
     },
     motivos: {
         motivo: [motivoSchema],
-        required: true
     }
 });
 
