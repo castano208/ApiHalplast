@@ -19,7 +19,6 @@ const pqrsSchema = new Schema({
             type: String,
             required: true
         },
-        required: true
     },
     descripcion: {
         type: String,
