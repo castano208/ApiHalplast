@@ -11,8 +11,8 @@ router.get('/tipoPqrs', tipoPqrsGet);
 
 router.post('/tipoPqrs', tipoPqrsPost);
 
-router.put('/tipoPqrs/:id_pqrs', tipoPqrsPut);
+router.put('/tipoPqrs/:id_tipo', tipoPqrsPut);
 
-router.delete('/tipoPqrs/:id_pqrs', tipoPqrsDelete);
+router.delete('/tipoPqrs/:id_tipo', tipoPqrsDelete);
 
 module.exports = router; 
