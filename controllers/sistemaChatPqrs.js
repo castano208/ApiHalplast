@@ -1,6 +1,8 @@
 const { response } = require("express");
 const SistemaChat = require('../modules/sistemaChat');
 const Usuario = require('../modules/usuario');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 const sistemaChatPqrsGet = async (req, res = response) => {
     try {
@@ -74,7 +76,34 @@ const agregarFechaChatPqrs = async (req, res = response) => {
 
         await chatPqrs.save();
 
+        const usuario = await Usuario.findById({correo: chatPqrs.cliente});
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'zsantiagohenao@gmail.com',
+                pass: 'mpuc xxbc buhy gswb'
+            }
+        });
+        const mailOptions = {
+            from: 'zsantiagohenao@gmail.com',
+            to: usuario.correo,
+            subject: 'Estado chat PQRS Halplast',
+            text: `Su chat se encuentra actualmente en ${estado}`
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ msg: 'Error al enviar el correo' });
+            } else {
+                console.log('Correo enviado: ' + info.response);
+                return res.json({ msg: 'Correo enviado correctamente' });
+            }
+        });
+
         res.json({ msg: 'Fecha agregada exitosamente', chatPqrs });
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: 'Error en el servidor al agregar la fecha al chat de PQRS' });
