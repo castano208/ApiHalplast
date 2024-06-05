@@ -2,7 +2,6 @@ const { response } = require("express");
 const SistemaChat = require('../modules/sistemaChat');
 const Usuario = require('../modules/usuario');
 const nodemailer = require('nodemailer');
-const crypto = require('crypto');
 
 const sistemaChatPqrsGet = async (req, res = response) => {
     try {
