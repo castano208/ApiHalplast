@@ -27,11 +27,11 @@ const pqrsPost = async (req, res) => {
     
         try {
             const pqrs = await nuevaPQRS.save();
-            
+            const idPqrs = pqrs._id;
             const sistemaChatDocumento = new SistemaChat({
                 remitente,
                 empleado,
-                pqrs._id,
+                idPqrs,
                 estado: "Estado inicial",
                 fechaChat,
             });
