@@ -1,6 +1,5 @@
 const { response } = require("express");
 const SistemaChat = require('../modules/sistemaChat');
-const Usuario = require('../modules/usuario');
 const nodemailer = require('nodemailer');
 
 const sistemaChatPqrsGet = async (req, res = response) => {
@@ -75,8 +74,6 @@ const agregarFechaChatPqrs = async (req, res = response) => {
 
         await chatPqrs.save();
 
-        const usuario = await Usuario.findById({correo: chatPqrs.cliente});
-
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -86,7 +83,7 @@ const agregarFechaChatPqrs = async (req, res = response) => {
         });
         const mailOptions = {
             from: 'zsantiagohenao@gmail.com',
-            to: usuario.correo,
+            to: chatPqrs.cliente,
             subject: 'Estado chat PQRS Halplast',
             text: `Su chat se encuentra actualmente en ${estado}`
         };
