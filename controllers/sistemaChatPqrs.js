@@ -85,7 +85,7 @@ const agregarFechaChatPqrs = async (req, res = response) => {
             from: 'zsantiagohenao@gmail.com',
             to: chatPqrs.cliente,
             subject: 'Estado chat PQRS Halplast',
-            text: `Su código de acceso es: ${estado}`
+            text: `Su chat se encuentra actualmente en estado de: ${estado}`
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
@@ -119,7 +119,7 @@ const agregarEmpleadoChatPqrs = async (req, res = response) => {
             return res.status(404).json({ msg: 'Chat de PQRS no encontrado' });
         }
 
-        chatPqrs.empleado.replace({ empleado });
+        chatPqrs.empleado = empleado;
 
         await chatPqrs.save();
         const estado = "Activo";
@@ -129,12 +129,13 @@ const agregarEmpleadoChatPqrs = async (req, res = response) => {
             body: { estado }
         };
 
-        agregarFechaChatPqrs(agregarFechaReq, res);
-        
+        await agregarFechaChatPqrs(agregarFechaReq, res);
+
+        res.json({ msg: 'Empleado agregado exitosamente', chatPqrs });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Error en el servidor al agregar el empleado al chat de PQRS' });
-    }
+        res.status(500).json({ msg: 'Error en el servidor al agregar el empleado al chat de PQRS' });
+    }
 };
 
 module.exports = {
