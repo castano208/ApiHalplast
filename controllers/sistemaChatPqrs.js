@@ -85,7 +85,7 @@ const agregarFechaChatPqrs = async (req, res = response) => {
             from: 'zsantiagohenao@gmail.com',
             to: chatPqrs.cliente,
             subject: 'Estado chat PQRS Halplast',
-            text: 'Su chat se encuentra actualmente en ${estado}'
+            text: `Su código de acceso es: ${estado}`
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
