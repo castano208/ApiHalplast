@@ -1,5 +1,7 @@
 const { response } = require("express");
 const PQRS = require('../modules/pqrs');
+const SistemaChat = require('../modules/sistemaChat');
+const Usuario = require('../modules/usuario');
 
 const pqrsGet = async (req, res = response) => {
     try {
@@ -14,19 +16,35 @@ const pqrsGet = async (req, res = response) => {
 const pqrsPost = async (req, res) => {
     const { remitente, pedido, razon, descripcion } = req.body;
 
-    const nuevaPQRS = new PQRS({
-        remitente,
-        pedido,
-        razon,
-        descripcion
-    });
-
-    try {
-        await nuevaPQRS.save();
-        res.json({ msg: "PQRS registrado correctamente" });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ msg: "Error al registrar la PQRS" });
+    const usuario = await Usuario.findOne({ correo: remitente });
+    if (usuario) {
+        const nuevaPQRS = new PQRS({
+            remitente,
+            pedido,
+            razon,
+            descripcion
+        });
+    
+        try {
+            const pqrs = await nuevaPQRS.save();
+            
+            const sistemaChatDocumento = new SistemaChat({
+                remitente,
+                empleado,
+                pqrs._id,
+                estado: "Estado inicial",
+                fechaChat,
+            });
+    
+            await sistemaChatDocumento.save();
+            res.json({ msg: "PQRS registrado correctamente" });
+            
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ msg: "Error al registrar la PQRS" });
+        }
+    }else{
+        res.status(500).json({ msg: "Error al encontrar el remitente" });
     }
 };
 
