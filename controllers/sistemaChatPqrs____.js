@@ -30,9 +30,16 @@ const sistemaChatPqrsGet = (req, res = response) => {
     });
   };
 
+  const agregarEmpleadoChatPqrs = (req, res = response) => {
+    res.json({
+      msg: "POST API AGREGAR EMPLEADO SISTEMA DE CHAT",
+    });
+  };
+
   module.exports = {
     sistemaChatPqrsGet,
     agregarFechaChatPqrs,
     sistemaChatPqrsPut,
     sistemaChatPqrsDelete,
+    agregarEmpleadoChatPqrs,
   };

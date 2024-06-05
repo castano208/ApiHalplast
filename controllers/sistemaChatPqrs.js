@@ -106,9 +106,40 @@ const agregarFechaChatPqrs = async (req, res = response) => {
     }
 };
 
+const agregarEmpleadoChatPqrs = async (req, res = response) => {
+    try {
+        const { id_ChatPqrs } = req.params;
+        const { empleado } = req.body;
+
+        if (!empleado) {
+            return res.status(400).json({ msg: 'Por favor, proporcione un empleado' });
+        }
+
+        const chatPqrs = await SistemaChat.findById(id_ChatPqrs);
+
+        if (!chatPqrs) {
+            return res.status(404).json({ msg: 'Chat de PQRS no encontrado' });
+        }
+
+        chatPqrs.fechas.push({ empleado });
+
+        await chatPqrs.save();
+        const estado = "Activo";
+
+        agregarFechaChatPqrs(id_ChatPqrs, estado);
+
+        res.json({ msg: 'Empleado agregada exitosamente', chatPqrs });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error en el servidor al agregar el empleado al chat de PQRS' });
+    }
+};
+
+
 module.exports = {
     sistemaChatPqrsGet,
     sistemaChatPqrsPut,
     sistemaChatPqrsDelete,
-    agregarFechaChatPqrs
+    agregarFechaChatPqrs,
+    agregarEmpleadoChatPqrs
 };
