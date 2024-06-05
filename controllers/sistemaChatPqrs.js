@@ -5,8 +5,8 @@ const nodemailer = require('nodemailer');
 
 const sistemaChatPqrsGet = async (req, res = response) => {
     try {
-        const pqrs = await PQRS.find();
-        res.json({ pqrs });
+        const sistemaChat = await SistemaChat.find();
+        res.json({ sistemaChat });
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: 'Error en el servidor al obtener PQRS' });
