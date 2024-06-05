@@ -36,16 +36,19 @@ const pqrsPost = async (req, res) => {
             cliente: remitente,
             empleado: "null",
             pqrs: pqrs._id,
-            estado,
-            fechaChat: new Date()
+            
+            fechas:{
+                fechaChat: new Date(),
+                estado
+            }
         });
 
         await sistemaChatDocumento.save();
 
-        res.json({ msg: "PQRS y SistemaChat registrados correctamente" });
+        res.json({ msg: "PQRS registrada correctamente" });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: "Error al registrar la PQRS y SistemaChat" });
+        res.status(500).json({ msg: "Error al registrar la PQRS" });
     }
 };
 

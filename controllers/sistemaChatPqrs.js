@@ -1,0 +1,57 @@
+const { response } = require("express");
+const SistemaChat = require('../modules/sistemaChat');
+const Usuario = require('../modules/usuario');
+
+const sistemaChatPqrsGet = async (req, res = response) => {
+    try {
+        const pqrs = await PQRS.find();
+        res.json({ pqrs });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error en el servidor al obtener PQRS' });
+    }
+};
+
+const sistemaChatPqrsPut = async (req, res = response) => {
+    try {
+        const { id_ChatPqrs } = req.params;
+        const { remitente, empleado, pqrs, fechas} = req.body;
+
+        if (!remitente || !empleado || !pqrs || !fechas) {
+            return res.status(400).json({ msg: 'Por favor, proporcione los datos completos' });
+        }
+
+        const chatPqrs = await SistemaChat.findOneAndUpdate({ _id: id_ChatPqrs }, { remitente, empleado, pqrs, fechas }, { new: true });
+
+        if (!chatPqrs) {
+            return res.status(404).json({ msg: 'chat de PQRS no encontrado' });
+        }
+
+        res.json({ msg: 'chat de PQRS actualizado exitosamente', pqrs });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error en el servidor al actualizar el chat de PQRS' });
+    }
+};
+
+const sistemaChatPqrsDelete = async (req, res = response) => {
+    try {
+        const { id_ChatPqrs } = req.params;
+        const sistemaChat = await SistemaChat.findOneAndDelete({ _id: id_ChatPqrs });
+
+        if (!sistemaChat) {
+            return res.status(404).json({ msg: 'chat de PQRS no encontrado' });
+        }
+
+        res.json({ msg: 'chat de PQRS eliminado exitosamente', pqrs });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error en el servidor al eliminar el chat de PQRS' });
+    }
+};
+
+module.exports = {
+    sistemaChatPqrsGet,
+    sistemaChatPqrsPut,
+    sistemaChatPqrsDelete
+};
