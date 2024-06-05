@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const sistemaChatSchema = new Schema({
   cliente: { type: String, required: true },
-  empleado: { type: String, default: "null"},
-  pqrs: { type: String, required: true },
+  empleado: { type: String, default: "null" },
+  pqrs: { type: Schema.Types.ObjectId, ref: 'PQRS', required: true },
   estado: { type: String, required: true },
   fechaChat: { type: Date, default: Date.now },
 });

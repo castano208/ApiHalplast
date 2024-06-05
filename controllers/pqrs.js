@@ -16,36 +16,36 @@ const pqrsGet = async (req, res = response) => {
 const pqrsPost = async (req, res) => {
     const { remitente, pedido, razon, descripcion } = req.body;
 
-    const usuario = await Usuario.findOne({ correo: remitente });
-    if (usuario) {
+    try {
+        const usuario = await Usuario.findOne({ correo: remitente });
+        if (!usuario) {
+            return res.status(400).json({ msg: "Remitente no encontrado" });
+        }
+
         const nuevaPQRS = new PQRS({
             remitente,
             pedido,
             razon,
             descripcion
         });
-    
-        try {
-            const pqrs = await nuevaPQRS.save();
-            const idPqrs = pqrs._id;
-            const estado = "Estado inicial";
-            const sistemaChatDocumento = new SistemaChat({
-                remitente,
-                empleado,
-                idPqrs,
-                estado,
-                fechaChat,
-            });
-    
-            await sistemaChatDocumento.save();
-            res.json({ msg: "PQRS registrado correctamente" });
-            
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ msg: idPqrs });
-        }
-    }else{
-        res.status(500).json({ msg: "Error al encontrar el remitente" });
+
+        const pqrs = await nuevaPQRS.save();
+        const estado = "Estado inicial";
+
+        const sistemaChatDocumento = new SistemaChat({
+            cliente: remitente,
+            empleado: "null",
+            pqrs: pqrs._id,
+            estado,
+            fechaChat: new Date()
+        });
+
+        await sistemaChatDocumento.save();
+
+        res.json({ msg: "PQRS y SistemaChat registrados correctamente" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: "Error al registrar la PQRS y SistemaChat" });
     }
 };
 
