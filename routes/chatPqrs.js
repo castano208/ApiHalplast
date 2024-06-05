@@ -9,7 +9,7 @@ const {
 
 router.get('/chatPqrs', sistemaChatPqrsGet);
 
-router.post('/chatPqrs/:id_ChatPqrs', agregarFechaChatPqrs);
+router.post('/chatPqrs/agregarEstado/:id_ChatPqrs', agregarFechaChatPqrs);
 
 router.put('/chatPqrs/:id_ChatPqrs', sistemaChatPqrsPut);
 
