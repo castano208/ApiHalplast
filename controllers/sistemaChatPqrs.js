@@ -85,7 +85,7 @@ const agregarFechaChatPqrs = async (req, res = response) => {
             from: 'zsantiagohenao@gmail.com',
             to: chatPqrs.cliente,
             subject: 'Estado chat PQRS Halplast',
-            text: `Su chat se encuentra actualmente en ${estado}`
+            text: 'Su chat se encuentra actualmente en ${estado}'
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
@@ -94,11 +94,9 @@ const agregarFechaChatPqrs = async (req, res = response) => {
                 return res.status(500).json({ msg: 'Error al enviar el correo' });
             } else {
                 console.log('Correo enviado: ' + info.response);
-                return res.json({ msg: 'Correo enviado correctamente' });
+                return res.json({ msg: 'Correo enviado correctamente', chatPqrs });
             }
         });
-
-        res.json({ msg: 'Fecha agregada exitosamente', chatPqrs });
 
     } catch (error) {
         console.error(error);
@@ -121,18 +119,22 @@ const agregarEmpleadoChatPqrs = async (req, res = response) => {
             return res.status(404).json({ msg: 'Chat de PQRS no encontrado' });
         }
 
-        chatPqrs.empleado.replace({ empleado });
+        chatPqrs.empleados.push({ empleado });
 
         await chatPqrs.save();
         const estado = "Activo";
+        
+        const agregarFechaReq = {
+            params: { id_ChatPqrs },
+            body: { estado }
+        };
 
-        await agregarFechaChatPqrs({ params: { id_ChatPqrs }, body: { estado } }, res);
-
-        res.json({ msg: 'Empleado agregado exitosamente', chatPqrs });
+        agregarFechaChatPqrs(agregarFechaReq, res);
+        
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Error en el servidor al agregar el empleado al chat de PQRS' });
-    }
+        res.status(500).json({ msg: 'Error en el servidor al agregar el empleado al chat de PQRS' });
+    }
 };
 
 module.exports = {
