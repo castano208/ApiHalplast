@@ -50,8 +50,40 @@ const sistemaChatPqrsDelete = async (req, res = response) => {
     }
 };
 
+const agregarFechaChatPqrs = async (req, res = response) => {
+    try {
+        const { id_ChatPqrs } = req.params;
+        const { estado } = req.body;
+
+        if (!estado) {
+            return res.status(400).json({ msg: 'Por favor, proporcione un estado' });
+        }
+
+        const chatPqrs = await SistemaChat.findById(id_ChatPqrs);
+
+        if (!chatPqrs) {
+            return res.status(404).json({ msg: 'Chat de PQRS no encontrado' });
+        }
+        const estadoExistente = chatPqrs.fechas.some(fecha => fecha.estado === estado);
+
+        if (estadoExistente) {
+            return res.status(400).json({ msg: 'El estado ya existe en el chat de PQRS' });
+        }
+
+        chatPqrs.fechas.push({ estado });
+
+        await chatPqrs.save();
+
+        res.json({ msg: 'Fecha agregada exitosamente', chatPqrs });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error en el servidor al agregar la fecha al chat de PQRS' });
+    }
+};
+
 module.exports = {
     sistemaChatPqrsGet,
     sistemaChatPqrsPut,
-    sistemaChatPqrsDelete
+    sistemaChatPqrsDelete,
+    agregarFechaChatPqrs
 };

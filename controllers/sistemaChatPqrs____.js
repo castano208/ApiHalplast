@@ -23,10 +23,16 @@ const sistemaChatPqrsGet = (req, res = response) => {
       msg: "DELETE API SISTEMA DE CHAT",
     });
   };
-  
+
+  const agregarFechaChatPqrs = (req, res = response) => {
+    res.json({
+      msg: "POST API AGREGAR ESTADO SISTEMA DE CHAT",
+    });
+  };
+
   module.exports = {
     sistemaChatPqrsGet,
-    sistemaChatPqrsPost,
+    agregarFechaChatPqrs,
     sistemaChatPqrsPut,
     sistemaChatPqrsDelete,
   };
