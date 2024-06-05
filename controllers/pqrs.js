@@ -32,7 +32,7 @@ const pqrsPost = async (req, res) => {
                 remitente,
                 empleado,
                 idPqrs,
-                estado: "Estado inicial",
+                "Estado inicial",
                 fechaChat,
             });
     
@@ -41,7 +41,7 @@ const pqrsPost = async (req, res) => {
             
         } catch (error) {
             console.error(error);
-            res.status(500).json({ msg: "Error al registrar la PQRS" });
+            res.status(500).json({ msg: idPqrs });
         }
     }else{
         res.status(500).json({ msg: "Error al encontrar el remitente" });
