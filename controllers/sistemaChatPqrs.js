@@ -119,11 +119,11 @@ const agregarEmpleadoChatPqrs = async (req, res = response) => {
             return res.status(404).json({ msg: 'Chat de PQRS no encontrado' });
         }
 
-        chatPqrs.empleados.push({ empleado });
+        chatPqrs.empleado.replace({ empleado });
 
         await chatPqrs.save();
         const estado = "Activo";
-        
+
         const agregarFechaReq = {
             params: { id_ChatPqrs },
             body: { estado }
