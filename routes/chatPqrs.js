@@ -6,7 +6,7 @@ const {
   sistemaChatPqrsDelete,
   agregarFechaChatPqrs,
   agregarEmpleadoChatPqrs,
-
+  
 } = require('../controllers/sistemaChatPqrs');
 
 router.get('/chatPqrs', sistemaChatPqrsGet);

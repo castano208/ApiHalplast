@@ -126,8 +126,6 @@ const agregarEmpleadoChatPqrs = async (req, res = response) => {
         await chatPqrs.save();
         const estado = "Activo";
 
-        agregarFechaChatPqrs(id_ChatPqrs, estado);
-
         res.json({ msg: 'Empleado agregada exitosamente', chatPqrs });
     } catch (error) {
         console.error(error);
@@ -141,5 +139,5 @@ module.exports = {
     sistemaChatPqrsPut,
     sistemaChatPqrsDelete,
     agregarFechaChatPqrs,
-    agregarEmpleadoChatPqrs
+    agregarEmpleadoChatPqrs,
 };
