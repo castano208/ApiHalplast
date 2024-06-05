@@ -6,10 +6,10 @@ const {
   sistemaChatPqrsDelete,
 } = require('../controllers/sistemaChatPqrs');
 
-router.get('/pqrs', sistemaChatPqrsGet);
+router.get('/chatPqrs', sistemaChatPqrsGet);
 
-router.put('/pqrs/:id_ChatPqrs', sistemaChatPqrsPut);
+router.put('/chatPqrs/:id_ChatPqrs', sistemaChatPqrsPut);
 
-router.delete('/pqrs/:id_ChatPqrs', sistemaChatPqrsDelete);
+router.delete('/chatPqrs/:id_ChatPqrs', sistemaChatPqrsDelete);
 
 module.exports = router; 
