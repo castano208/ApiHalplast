@@ -6,12 +6,6 @@ const sistemaChatPqrsGet = (req, res = response) => {
     });
   };
   
-  const sistemaChatPqrsPost = (req, res = response) => {
-    res.json({
-      msg: "POST API SISTEMA DE CHAT",
-    });
-  };
-  
   const sistemaChatPqrsPut = (req, res = response) => {
     res.json({
       msg: "PUT API SISTEMA DE CHAT",
@@ -36,10 +30,17 @@ const sistemaChatPqrsGet = (req, res = response) => {
     });
   };
 
+  const ultimoEstadoChatPqrs = (req, res = response) => {
+    res.json({
+      msg: "GET API VER ULTIMO ESTADO DE UN CHAT PQRS",
+    });
+  };
+
   module.exports = {
     sistemaChatPqrsGet,
     agregarFechaChatPqrs,
     sistemaChatPqrsPut,
     sistemaChatPqrsDelete,
     agregarEmpleadoChatPqrs,
+    ultimoEstadoChatPqrs,
   };

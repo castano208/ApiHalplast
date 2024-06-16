@@ -27,7 +27,7 @@ const sistemaChatPqrsPut = async (req, res = response) => {
             return res.status(404).json({ msg: 'chat de PQRS no encontrado' });
         }
 
-        res.json({ msg: 'chat de PQRS actualizado exitosamente', pqrs });
+        res.json({ msg: 'chat de PQRS actualizado exitosamente'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: 'Error en el servidor al actualizar el chat de PQRS' });
@@ -43,7 +43,7 @@ const sistemaChatPqrsDelete = async (req, res = response) => {
             return res.status(404).json({ msg: 'chat de PQRS no encontrado' });
         }
 
-        res.json({ msg: 'chat de PQRS eliminado exitosamente', pqrs });
+        res.json({ msg: 'chat de PQRS eliminado exitosamente'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: 'Error en el servidor al eliminar el chat de PQRS' });
@@ -94,7 +94,7 @@ const agregarFechaChatPqrs = async (req, res = response) => {
                 return res.status(500).json({ msg: 'Error al enviar el correo' });
             } else {
                 console.log('Correo enviado: ' + info.response);
-                return res.json({ msg: 'Correo enviado correctamente', chatPqrs });
+                return res.json({ msg: 'Correo enviado correctamente'});
             }
         });
 
@@ -131,10 +131,27 @@ const agregarEmpleadoChatPqrs = async (req, res = response) => {
 
         await agregarFechaChatPqrs(agregarFechaReq, res);
 
-        res.json({ msg: 'Empleado agregado exitosamente', chatPqrs });
+        res.json({ msg: 'Empleado agregado exitosamente'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: 'Error en el servidor al agregar el empleado al chat de PQRS' });
+    }
+};
+
+const ultimoEstadoChatPqrs = async (req, res = response) => {
+    try {
+        const { id_ChatPqrs } = req.params;
+
+        const chatPqrs = await SistemaChat.findById(id_ChatPqrs);
+
+        if (!chatPqrs) {
+            return res.status(404).json({ msg: 'Chat de PQRS no encontrado' });
+        }
+
+        res.json({});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error en el servidor al obtener el ultimo estado de un chat de PQRS' });
     }
 };
 
@@ -143,5 +160,6 @@ module.exports = {
     sistemaChatPqrsPut,
     sistemaChatPqrsDelete,
     agregarFechaChatPqrs,
-    agregarEmpleadoChatPqrs
+    agregarEmpleadoChatPqrs,
+    ultimoEstadoChatPqrs
 };

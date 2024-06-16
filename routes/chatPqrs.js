@@ -6,10 +6,13 @@ const {
   sistemaChatPqrsDelete,
   agregarFechaChatPqrs,
   agregarEmpleadoChatPqrs,
-  
+  ultimoEstadoChatPqrs,
+
 } = require('../controllers/sistemaChatPqrs');
 
 router.get('/chatPqrs', sistemaChatPqrsGet);
+
+router.get('/chatPqrs/estado', ultimoEstadoChatPqrs);
 
 router.post('/chatPqrs/agregarEstado/:id_ChatPqrs', agregarFechaChatPqrs);
 
