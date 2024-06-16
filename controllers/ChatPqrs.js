@@ -12,10 +12,10 @@ const chatPqrsGet = async (req, res) => {
 };
 
 const chatPqrsPost = async (req, res) => {
-    const { sistemaChatId } = req.params;
+    const { id_SistemaChat } = req.params;
     const { mensaje, id_usuario } = req.body;
     try {
-      const chatMensaje = await ChatMensaje.findOne({ SistemaChat: sistemaChatId });
+      const chatMensaje = await ChatMensaje.findOne({ SistemaChat : id_SistemaChat });
   
       const usuarioCliente = await Usuario.findOne({
         _id: id_usuario, 'rol.permisos.nombrePermiso': 'cliente'
@@ -26,19 +26,17 @@ const chatPqrsPost = async (req, res) => {
       });
   
       if (!chatMensaje) {
-        return res.status(404).json({ message: "Chat not found" });
+        return res.status(404).json({ message: "Chat no encontrado" });
       }
   
       if (!(usuarioCliente || usuarioEmpleado)) {
-        return res.status(404).json({ message: "User not found" });
+        return res.status(404).json({ message: "User no encontrado" });
       }
 
       if (usuarioCliente) {
         chatMensaje.mensajeCliente.push({ mensaje });
-        return res.status(404).json("hola 1");
       } else if (usuarioEmpleado) {
         chatMensaje.mensajeEmpleado.push({ mensaje });
-        return res.status(404).json("hola 2");
       } else {
         return res.status(400).json({ message: "Invalid message type" });
       }
@@ -50,13 +48,12 @@ const chatPqrsPost = async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   };
-  
 
 const chatPqrsDelete = async (req, res) => {
-    const { sistemaChatId } = req.params;
+    const { id_SistemaChat } = req.params;
     const {mensajeId, id_usuario} = req.body;
     try {
-        const chatMensaje = await ChatMensaje.findOne({ SistemaChat: sistemaChatId });
+        const chatMensaje = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat });
 
         const usuarioCliente = await Usuario.findOne({
             _id: id_usuario, 'rol.permisos.nombrePermiso': 'cliente'
@@ -88,10 +85,10 @@ const chatPqrsDelete = async (req, res) => {
 };
 
 const finalizarChat = async (req, res) => {
-    const { sistemaChatId } = req.params;
+    const { id_SistemaChat } = req.params;
     
     try {
-        const chatMensaje = await ChatMensaje.findOne({ SistemaChat: sistemaChatId });
+        const chatMensaje = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat });
         if (!chatMensaje) {
             return res.status(404).json({ message: "Chat no encontrado" });
         }
