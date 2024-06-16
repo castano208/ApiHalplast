@@ -10,7 +10,7 @@ const {
 
 router.get('/chatPqrs/:id_SistemaChat', chatPqrsGet);
 router.post('/chatPqrs/:id_SistemaChat', chatPqrsPost);
-router.post('/chatPqrs/crear', chatPqrsPostCrear);
+router.post('/chatPqrs/crear/:id_SistemaChat', chatPqrsPostCrear);
 
 router.delete('/chatPqrs', chatPqrsDelete);
 router.delete('/finalizarChat', finalizarChat);

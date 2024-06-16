@@ -102,14 +102,12 @@ const finalizarChat = async (req, res) => {
 const chatPqrsPostCrear = async (req, res) => {
     const { id_SistemaChat } = req.body;
     try {
-        // Verificar si ya existe un chat con ese id_SistemaChat
-        let chatExistente = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat });
+        let chatExistente = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat});
 
         if (chatExistente) {
-            return res.status(400).json({ message: 'Ya existe un chat con ese id_SistemaChat.' });
+            return res.status(400);
         }
 
-        // Crear un nuevo chat sin mensajes
         const nuevoChat = new ChatMensaje({
             SistemaChat: id_SistemaChat,
             mensajeCliente: [],
@@ -118,7 +116,7 @@ const chatPqrsPostCrear = async (req, res) => {
 
         await nuevoChat.save();
 
-        res.status(201).json(nuevoChat);
+        res.status(201);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
