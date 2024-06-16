@@ -7,12 +7,15 @@ const {
   agregarFechaChatPqrs,
   agregarEmpleadoChatPqrs,
   ultimoEstadoChatPqrs,
+  SistemaChatPqrsGetUnico,
 
 } = require('../controllers/sistemaChatPqrs');
 
 router.get('/chatPqrs', sistemaChatPqrsGet);
 
 router.get('/chatPqrs/estado', ultimoEstadoChatPqrs);
+
+router.get('/chatPqrs/unico/:id_Usuario', SistemaChatPqrsGetUnico);
 
 router.post('/chatPqrs/agregarEstado/:id_ChatPqrs', agregarFechaChatPqrs);
 

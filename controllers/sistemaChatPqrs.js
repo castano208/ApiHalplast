@@ -1,5 +1,6 @@
 const { response } = require("express");
 const SistemaChat = require('../modules/sistemaChat');
+const Usuario = require('../modules/usuario');
 const nodemailer = require('nodemailer');
 
 const sistemaChatPqrsGet = async (req, res = response) => {
@@ -148,7 +149,29 @@ const ultimoEstadoChatPqrs = async (req, res = response) => {
             return res.status(404).json({ msg: 'Chat de PQRS no encontrado' });
         }
 
-        res.json({});
+        const ultimoEstado = chatPqrs.fechas.slice(-1)[0];
+
+        res.json({ estado: ultimoEstado.estado });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ msg: 'Error en el servidor al obtener el ultimo estado de un chat de PQRS' });
+    }
+};
+
+
+const SistemaChatPqrsGetUnico = async (req, res = response) => {
+    try {
+        const { id_Usuario } = req.params;
+
+        const usuario = await Usuario.findById(id_Usuario);
+
+        const chatPqrs = await SistemaChat.findOne({ cliente: usuario.correo });
+
+        if (!chatPqrs) {
+            return res.status(404).json({ msg: 'Chat de PQRS no encontrado' });
+        }
+
+        res.json(chatPqrs);
     } catch (error) {
         console.error(error);
         res.status(500).json({ msg: 'Error en el servidor al obtener el ultimo estado de un chat de PQRS' });
@@ -161,5 +184,6 @@ module.exports = {
     sistemaChatPqrsDelete,
     agregarFechaChatPqrs,
     agregarEmpleadoChatPqrs,
-    ultimoEstadoChatPqrs
+    ultimoEstadoChatPqrs,
+    SistemaChatPqrsGetUnico
 };
