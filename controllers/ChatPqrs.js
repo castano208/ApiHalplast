@@ -11,33 +11,33 @@ const chatPqrsGet = async (req, res) => {
     }
 };
 const chatPqrsPost = async (req, res) => {
-    const { id_SistemaChat   } = req.params;
+    const { id_SistemaChat } = req.params;
     const { mensaje, id_usuario } = req.body;
     
     try {
       const chatMensaje = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat });
-    
+  
       if (!chatMensaje) {
         return res.status(404).json({ message: "Chat no encontrado" });
       }
-    
-      let usuarioCliente;
-      let usuarioEmpleado;
-    
+  
+      let usuarioCliente = null;
+      let usuarioEmpleado = null;
+  
       if (id_usuario) {
+        usuarioEmpleado = await Usuario.findOne({
+          correo: id_usuario, 'rol.permisos.nombrePermiso': 'empleado'
+        });
+  
         usuarioCliente = await Usuario.findOne({
           correo: id_usuario, 'rol.permisos.nombrePermiso': 'cliente'
         });
-    
-        usuarioEmpleado = await Usuario.findOne({
-            correo: id_usuario, 'rol.permisos.nombrePermiso': 'empleado'
-        });
-    
-        if (!(usuarioCliente || usuarioEmpleado)) {
-          return res.status(404).json({ message: "Usuario no encontrado o no tiene los permisos adecuados" });
-        }
       }
-    
+
+      if (!(usuarioCliente || usuarioEmpleado)) {
+        return res.status(404).json({ message: "Usuario no encontrado o no tiene los permisos adecuados" });
+      }
+
       if (usuarioCliente) {
         chatMensaje.mensajeCliente.push({ mensaje });
       } else if (usuarioEmpleado) {
@@ -45,15 +45,16 @@ const chatPqrsPost = async (req, res) => {
       } else {
         return res.status(400).json({ message: "Tipo de mensaje no válido" });
       }
-    
+  
+      // Guardar el mensaje actualizado en el chat
       await chatMensaje.save();
-    
+  
       res.status(201).json(chatMensaje);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  };  
-
+  };
+  
 const chatPqrsDelete = async (req, res) => {
     const { id_SistemaChat } = req.params;
     const {mensajeId, id_usuario} = req.body;
