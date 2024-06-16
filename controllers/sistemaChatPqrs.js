@@ -165,7 +165,10 @@ const SistemaChatPqrsGetUnico = async (req, res = response) => {
 
         const usuario = await Usuario.findById(id_Usuario);
 
-        const chatPqrs = await SistemaChat.findOne({ cliente: usuario.correo });
+        const chatPqrs = await SistemaChat.findOne({     $or: [
+            { cliente: usuario.correo },
+            { empleado: usuario.correo }
+          ]} );
 
         if (!chatPqrs) {
             return res.status(404).json({ msg: 'Chat de PQRS no encontrado' });
