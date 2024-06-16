@@ -5,10 +5,13 @@ const {
     chatPqrsPost,
     chatPqrsDelete,
     finalizarChat,
+    chatPqrsPostCrear,
 } = require('../controllers/ChatPqrs');
 
 router.get('/chatPqrs/:id_SistemaChat', chatPqrsGet);
-router.post('/chatPqrs', chatPqrsPost);
+router.post('/chatPqrs/:id_SistemaChat', chatPqrsPost);
+router.post('/chatPqrs/crear', chatPqrsPostCrear);
+
 router.delete('/chatPqrs', chatPqrsDelete);
 router.delete('/finalizarChat', finalizarChat);
 

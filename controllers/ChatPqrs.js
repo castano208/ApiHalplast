@@ -99,9 +99,35 @@ const finalizarChat = async (req, res) => {
     }
 };
 
+const chatPqrsPostCrear = async (req, res) => {
+    const { id_SistemaChat } = req.body;
+    try {
+        // Verificar si ya existe un chat con ese id_SistemaChat
+        let chatExistente = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat });
+
+        if (chatExistente) {
+            return res.status(400).json({ message: 'Ya existe un chat con ese id_SistemaChat.' });
+        }
+
+        // Crear un nuevo chat sin mensajes
+        const nuevoChat = new ChatMensaje({
+            SistemaChat: id_SistemaChat,
+            mensajeCliente: [],
+            mensajeEmpleado: []
+        });
+
+        await nuevoChat.save();
+
+        res.status(201).json(nuevoChat);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     chatPqrsGet,
     chatPqrsPost,
     chatPqrsDelete,
     finalizarChat,
+    chatPqrsPostCrear,
 };
