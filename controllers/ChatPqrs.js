@@ -35,8 +35,10 @@ const chatPqrsPost = async (req, res) => {
 
       if (usuarioCliente) {
         chatMensaje.mensajeCliente.push({ mensaje });
+        return res.status(404).json("hola 1");
       } else if (usuarioEmpleado) {
         chatMensaje.mensajeEmpleado.push({ mensaje });
+        return res.status(404).json("hola 2");
       } else {
         return res.status(400).json({ message: "Invalid message type" });
       }
