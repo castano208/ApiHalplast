@@ -8,11 +8,12 @@ const {
     chatPqrsPostCrear,
 } = require('../controllers/ChatPqrs');
 
-router.get('/chatPqrs/:id_SistemaChat', chatPqrsGet);
-router.post('/chatPqrs/:id_SistemaChat', chatPqrsPost);
-router.post('/chatPqrs/crear/:id_SistemaChat', chatPqrsPostCrear);
+router.get('/chatPqrs/mensajes/:id_SistemaChat', chatPqrsGet);
 
-router.delete('/chatPqrs', chatPqrsDelete);
-router.delete('/finalizarChat', finalizarChat);
+router.post('/chatPqrs/mensajes/:id_SistemaChat', chatPqrsPost);
+router.post('/chatPqrs/mensajes/crear/:id_SistemaChat', chatPqrsPostCrear);
+
+router.delete('/chatPqrs/mensajes', chatPqrsDelete);
+router.delete('/finalizarChat/mensajes', finalizarChat);
 
 module.exports = router;

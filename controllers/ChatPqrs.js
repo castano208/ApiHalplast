@@ -105,7 +105,7 @@ const chatPqrsPostCrear = async (req, res) => {
         let chatExistente = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat});
 
         if (chatExistente) {
-            return res.status(400);
+            return res.status(201);
         }
 
         const nuevoChat = new ChatMensaje({

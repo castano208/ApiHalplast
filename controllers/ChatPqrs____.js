@@ -24,9 +24,16 @@ const chatPqrsGet = (req, res = response) => {
     });
   };
   
+  const chatPqrsPostCrear = (req, res = response) => {
+    res.json({
+      msg: "POST API CREAR CHAT DE PQRS",
+    });
+  };
+
   module.exports = {
     chatPqrsGet,
     chatPqrsPost,
     chatPqrsDelete,
     finalizarChat,
+    chatPqrsPostCrear,
   };
