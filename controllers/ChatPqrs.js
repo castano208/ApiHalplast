@@ -2,8 +2,9 @@ const ChatMensaje = require('../modules/chatMensaje');
 const Usuario = require('../modules/usuario');
 
 const chatPqrsGet = async (req, res) => {
+    const { id_SistemaChat } = req.body;
     try {
-        const messages = await ChatMensaje.find();
+        const messages = await ChatMensaje.findOne({ SistemaChat : id_SistemaChat});
         res.json(messages);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -47,7 +48,7 @@ const chatPqrsPost = async (req, res) => {
 };
 
 const chatPqrsDelete = async (req, res) => {
-    const { sistemaChatId, mensajeId, id_usuario } = req.body; // Cambié "id_usario" a "id_usuario" para coincidir con el nombre correcto
+    const { sistemaChatId, mensajeId, id_usuario } = req.body;
     try {
         const chatMensaje = await ChatMensaje.findOne({ SistemaChat: sistemaChatId });
 
