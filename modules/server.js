@@ -31,6 +31,7 @@ class Server {
         this.app.use(this.enviosPath, require("../routes/pqrs"));
         this.app.use(this.enviosPath, require("../routes/tipoPqrs"));
         this.app.use(this.enviosPath, require("../routes/chatPqrs"));
+        this.app.use(this.enviosPath, require("../routes/chatPqrsMensajes"));
     }    
 
     async connectDb() {
