@@ -7,7 +7,7 @@ const {
     finalizarChat,
 } = require('../controllers/ChatPqrs');
 
-router.get('/chatPqrs/:id_chatMessage', chatPqrsGet);
+router.get('/chatPqrs/:id_SistemaChat', chatPqrsGet);
 router.post('/chatPqrs', chatPqrsPost);
 router.delete('/chatPqrs', chatPqrsDelete);
 router.delete('/finalizarChat', finalizarChat);
