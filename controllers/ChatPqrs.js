@@ -10,10 +10,11 @@ const chatPqrsGet = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
 const chatPqrsPost = async (req, res) => {
     const { id_SistemaChat } = req.params;
     const { mensaje, id_usuario } = req.body;
-    
+  
     try {
       const chatMensaje = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat });
   
@@ -25,19 +26,23 @@ const chatPqrsPost = async (req, res) => {
       let usuarioEmpleado = null;
   
       if (id_usuario) {
-        usuarioEmpleado = await Usuario.findOne({
-          correo: id_usuario, 'rol.permisos.nombrePermiso': 'empleado'
-        });
+        const usuario = await Usuario.findOne({ correo: id_usuario });
   
-        usuarioCliente = await Usuario.findOne({
-          correo: id_usuario, 'rol.permisos.nombrePermiso': 'cliente'
-        });
+        if (usuario) {
+          for (let permiso of usuario.rol.permisos) {
+            if (permiso.nombrePermiso === 'empleado') {
+              usuarioEmpleado = usuario;
+            } else if (permiso.nombrePermiso === 'cliente') {
+              usuarioCliente = usuario;
+            }
+          }
+        }
       }
-
+  
       if (!(usuarioCliente || usuarioEmpleado)) {
         return res.status(404).json({ message: "Usuario no encontrado o no tiene los permisos adecuados" });
       }
-
+  
       if (usuarioCliente) {
         chatMensaje.mensajeCliente.push({ mensaje });
       } else if (usuarioEmpleado) {
@@ -46,7 +51,6 @@ const chatPqrsPost = async (req, res) => {
         return res.status(400).json({ message: "Tipo de mensaje no válido" });
       }
   
-      // Guardar el mensaje actualizado en el chat
       await chatMensaje.save();
   
       res.status(201).json(chatMensaje);
