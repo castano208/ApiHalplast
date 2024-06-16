@@ -10,44 +10,49 @@ const chatPqrsGet = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 const chatPqrsPost = async (req, res) => {
     const { id_SistemaChat } = req.params;
     const { mensaje, id_usuario } = req.body;
+    
     try {
-      const chatMensaje = await ChatMensaje.findOne({ SistemaChat : id_SistemaChat });
-  
-      const usuarioCliente = await Usuario.findOne({
-        _id: id_usuario, 'rol.permisos.nombrePermiso': 'cliente'
-      });
-  
-      const usuarioEmpleado = await Usuario.findOne({
-        _id: id_usuario, 'rol.permisos.nombrePermiso': 'empleado'
-      });
-  
+      const chatMensaje = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat });
+    
       if (!chatMensaje) {
         return res.status(404).json({ message: "Chat no encontrado" });
       }
-  
-      if (!(usuarioCliente || usuarioEmpleado)) {
-        return res.status(404).json({ message: "User no encontrado" });
+    
+      let usuarioCliente;
+      let usuarioEmpleado;
+    
+      if (id_usuario) {
+        usuarioCliente = await Usuario.findOne({
+          _id: id_usuario, 'rol.permisos.nombrePermiso': 'cliente'
+        });
+    
+        usuarioEmpleado = await Usuario.findOne({
+          _id: id_usuario, 'rol.permisos.nombrePermiso': 'empleado'
+        });
+    
+        if (!(usuarioCliente || usuarioEmpleado)) {
+          return res.status(404).json({ message: "Usuario no encontrado o no tiene los permisos adecuados" });
+        }
       }
-
+    
       if (usuarioCliente) {
         chatMensaje.mensajeCliente.push({ mensaje });
       } else if (usuarioEmpleado) {
         chatMensaje.mensajeEmpleado.push({ mensaje });
       } else {
-        return res.status(400).json({ message: "Invalid message type" });
+        return res.status(400).json({ message: "Tipo de mensaje no válido" });
       }
-  
+    
       await chatMensaje.save();
-  
+    
       res.status(201).json(chatMensaje);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
-  };
+  };  
 
 const chatPqrsDelete = async (req, res) => {
     const { id_SistemaChat } = req.params;
