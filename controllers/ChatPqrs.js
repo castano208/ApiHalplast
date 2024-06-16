@@ -53,7 +53,7 @@ const chatPqrsPost = async (req, res) => {
   
       await chatMensaje.save();
   
-      res.status(201).json(chatMensaje);
+      res.status(201);
     } catch (error) {
       res.status(500).json({ message: error.message });
     }
