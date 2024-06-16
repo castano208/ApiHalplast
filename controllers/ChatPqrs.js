@@ -11,7 +11,7 @@ const chatPqrsGet = async (req, res) => {
     }
 };
 const chatPqrsPost = async (req, res) => {
-    const { id_SistemaChat } = req.params;
+    const { id_SistemaChat   } = req.params;
     const { mensaje, id_usuario } = req.body;
     
     try {
@@ -26,11 +26,11 @@ const chatPqrsPost = async (req, res) => {
     
       if (id_usuario) {
         usuarioCliente = await Usuario.findOne({
-          _id: id_usuario, 'rol.permisos.nombrePermiso': 'cliente'
+          correo: id_usuario, 'rol.permisos.nombrePermiso': 'cliente'
         });
     
         usuarioEmpleado = await Usuario.findOne({
-          _id: id_usuario, 'rol.permisos.nombrePermiso': 'empleado'
+            correo: id_usuario, 'rol.permisos.nombrePermiso': 'empleado'
         });
     
         if (!(usuarioCliente || usuarioEmpleado)) {
