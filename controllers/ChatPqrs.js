@@ -2,7 +2,7 @@ const ChatMensaje = require('../modules/chatMensaje');
 const Usuario = require('../modules/usuario');
 
 const chatPqrsGet = async (req, res) => {
-    const { id_SistemaChat } = req.body;
+    const { id_SistemaChat } = req.params;
     try {
         const messages = await ChatMensaje.findOne({ SistemaChat : id_SistemaChat});
         res.json(messages);
@@ -12,7 +12,8 @@ const chatPqrsGet = async (req, res) => {
 };
 
 const chatPqrsPost = async (req, res) => {
-    const { sistemaChatId, mensaje, id_usuario } = req.body;
+    const { sistemaChatId } = req.params;
+    const { mensaje, id_usuario } = req.body;
     try {
         const chatMensaje = await ChatMensaje.findOne({ SistemaChat: sistemaChatId });
 
@@ -48,7 +49,8 @@ const chatPqrsPost = async (req, res) => {
 };
 
 const chatPqrsDelete = async (req, res) => {
-    const { sistemaChatId, mensajeId, id_usuario } = req.body;
+    const { sistemaChatId } = req.params;
+    const {mensajeId, id_usuario} = req.body;
     try {
         const chatMensaje = await ChatMensaje.findOne({ SistemaChat: sistemaChatId });
 
@@ -82,7 +84,8 @@ const chatPqrsDelete = async (req, res) => {
 };
 
 const finalizarChat = async (req, res) => {
-    const { sistemaChatId } = req.body;
+    const { sistemaChatId } = req.params;
+    
     try {
         const chatMensaje = await ChatMensaje.findOne({ SistemaChat: sistemaChatId });
         if (!chatMensaje) {
@@ -100,7 +103,7 @@ const finalizarChat = async (req, res) => {
 };
 
 const chatPqrsPostCrear = async (req, res) => {
-    const { id_SistemaChat } = req.body;
+    const { id_SistemaChat } = req.params;
     try {
         let chatExistente = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat});
 
