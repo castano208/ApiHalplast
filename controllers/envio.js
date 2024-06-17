@@ -1,6 +1,7 @@
 const { response } = require("express");
 const Envio = require('../modules/envio');
 const EstadoEnvio = require('../modules/estadoEnvio');
+const nodemailer = require('nodemailer');
 
 const enviosGet = async (req, res = response) => {
     try {
