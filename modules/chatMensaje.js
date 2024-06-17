@@ -5,12 +5,14 @@ const ChatMensajeSchema = new Schema({
   SistemaChat: { type: Schema.Types.ObjectId, ref: 'SistemaChat', required: true },
   mensajeCliente: [
     {
-      mensaje: {type: String},
+      mensaje: { type: String },
+      timestamp: { type: Date, default: Date.now }
     }
   ],
   mensajeEmpleado: [
     {
-      mensaje: {type: String},
+      mensaje: { type: String },
+      timestamp: { type: Date, default: Date.now }
     }
   ]
 });
