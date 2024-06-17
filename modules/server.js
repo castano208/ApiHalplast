@@ -54,10 +54,10 @@ class Server {
     configureWebSocket() {
         this.wss.on('connection', (ws) => {
             console.log('Nuevo cliente conectado');
-
+    
             ws.on('message', (message) => {
                 console.log(`Mensaje recibido: ${message}`);
-
+    
                 // Aquí puedes procesar el mensaje y enviarlo a todos los clientes
                 this.wss.clients.forEach((client) => {
                     if (client.readyState === WebSocket.OPEN) {
@@ -65,14 +65,12 @@ class Server {
                     }
                 });
             });
-
+    
             ws.on('close', () => {
                 console.log('Cliente desconectado');
             });
-
-            ws.send('Bienvenido al chat');
         });
-    }
+    }    
 }
 
 module.exports = Server;
