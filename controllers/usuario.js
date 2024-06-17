@@ -110,7 +110,7 @@ const recuperarPassword = async (req, res = response) => {
             service: 'gmail',
             auth: {
                 user: 'zsantiagohenao@gmail.com',
-                pass: 'mpuc xxbc buhy gswb'
+                pass: 'zbqd gtac dcjt yacd'
             }
         });
         const mailOptions = {
