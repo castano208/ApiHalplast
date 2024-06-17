@@ -138,6 +138,20 @@ const enviosModificarEstadoPost = async (req, res) => {
         return res.status(404).json({ msg: 'Envío no encontrado' });
       }
   
+      if (EstadoEnvioDescripcion != null && EstadoEnvioDescripcion.length > 0) {
+        const descripcionExistente = await EstadoEnvio.findOne({ Envio: envio._id });
+        if (descripcionExistente) {
+          descripcionExistente.EstadoEnvio.push(EstadoEnvioDescripcion);
+          await descripcionExistente.save();
+        } else {
+          const estadoEnvioDescripcion = new EstadoEnvio({
+            Envio: envio._id,
+            EstadoEnvio: [EstadoEnvioDescripcion],
+          });
+          await estadoEnvioDescripcion.save();
+        }
+      }
+  
   
       res.json({ msg: 'Estado de envío actualizado correctamente', envio });
     } catch (error) {
