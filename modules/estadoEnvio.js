@@ -6,7 +6,8 @@ const estadoDescripcionSchema = new Schema({
   EstadoEnvio: [
     {
       motivo: { type: String, required: true },
-      descripcion: { type: String,  required: true }
+      descripcion: { type: String, default: 'Sin descripcion' },
+      timestamp: { type: Date, default: Date.now }
     }
   ],
 });
