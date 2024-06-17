@@ -139,7 +139,13 @@ const enviosModificarEstadoPost = async (req, res) => {
         }
 
         if (EstadoEnvioDescripcion != null) {
-            const estadoEnvioDescripcion = new EstadoEnvio({ id_envio, EstadoEnvioDescripcion});
+            const descripcionExistente = await EstadoEnvio.findOne({Envio : envio._id})
+            if (descripcionExistente) {
+                descripcionExistente.EstadoEnvio.push({ mensaje });
+                await descripcionExistente.save();
+            }else{
+                const estadoEnvioDescripcion = new EstadoEnvio({ id_envio, EstadoEnvio: [EstadoEnvioDescripcion],});
+            }
             await estadoEnvioDescripcion.save();
         }
 
@@ -150,6 +156,7 @@ const enviosModificarEstadoPost = async (req, res) => {
                 pass: 'zbqd gtac dcjt yacd'
             }
         }); 
+        
         const variableTexto = ``;
         if (descripcion != null) {
             variableTexto = `Su nuevo estado de envio es ${estadoEnvio}` ;

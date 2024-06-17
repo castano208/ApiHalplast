@@ -3,16 +3,12 @@ const Schema = mongoose.Schema;
 
 const estadoDescripcionSchema = new Schema({
   Envio: { type: Schema.Types.ObjectId, ref: 'Envio', required: true },
-  EstadoEnvio: {
-    motivo: {
-      type: String,
-      required: true
-    },
-    descripcion: {
-        type: String,
-        required: true
-    },
-},
+  EstadoEnvio: [
+    {
+      motivo: { type: String, required: true },
+      descripcion: { type: String,  required: true }
+    }
+  ],
 });
 
 const EstadoDescripcion = mongoose.model('EstadoDescripcion', estadoDescripcionSchema);
