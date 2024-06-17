@@ -36,6 +36,12 @@ const enviosGet = (req, res = response) => {
     });
   };
 
+  const enviosModificarEstadoPost = (req, res = response) => {
+    res.json({
+      msg: "POST API MODIFICAR ESTADO DE ENVIO",
+    });
+  };
+
   module.exports = {
     enviosGet,
     enviosPost,
@@ -43,4 +49,5 @@ const enviosGet = (req, res = response) => {
     enviosDelete,
     enviosCliente,
     EnviosTerminadosCliente,
+    enviosModificarEstadoPost
   };

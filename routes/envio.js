@@ -8,11 +8,14 @@ const {
   enviosCliente,
   EnviosTerminadosCliente,
   EnviosDetalle,
+  enviosModificarEstadoPost,
 } = require('../controllers/envio');
 
 router.get('/envios', enviosGet);
 
 router.post('/envios', enviosPost);
+
+router.post('/envios/estado/:id_envio', enviosModificarEstadoPost);
 
 router.put('/envios/:id_envio', enviosPut);
 
