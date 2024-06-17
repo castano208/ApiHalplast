@@ -129,8 +129,8 @@ const enviosModificarEstadoPost = async (req, res) => {
 
     try {
         const envio = await Envio.findOneAndUpdate(
-            { _id: id_envio }, 
-            { estadoEnvio},
+            { _id: id_envio },
+            { estadoEnvio },
             { new: true }
         );
 
@@ -139,36 +139,39 @@ const enviosModificarEstadoPost = async (req, res) => {
         }
 
         if (EstadoEnvioDescripcion != null) {
-            const descripcionExistente = await EstadoEnvio.findOne({Envio : envio._id})
+            const descripcionExistente = await EstadoEnvio.findOne({ Envio: envio._id });
             if (descripcionExistente) {
-                descripcionExistente.EstadoEnvio.push({ mensaje });
+                descripcionExistente.EstadoEnvio.push(EstadoEnvioDescripcion);
                 await descripcionExistente.save();
-            }else{
-                const estadoEnvioDescripcion = new EstadoEnvio({ id_envio, EstadoEnvio: [EstadoEnvioDescripcion],});
+            } else {
+                const estadoEnvioDescripcion = new EstadoEnvio({
+                    Envio: envio._id,
+                    EstadoEnvio: [EstadoEnvioDescripcion],
+                });
+                await estadoEnvioDescripcion.save();
             }
-            await estadoEnvioDescripcion.save();
         }
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
                 user: 'zsantiagohenao@gmail.com',
-                pass: 'zbqd gtac dcjt yacd'
-            }
-        }); 
-        
-        const variableTexto = ``;
-        if (descripcion != null) {
-            variableTexto = `Su nuevo estado de envio es ${estadoEnvio}` ;
-        }else{
-            variableTexto = `Su nuevo estado de envio es ${estadoEnvio} y la descripcion para esta es ${estadoEnvioDescripcion.EstadoEnvio.descripcion}`;
+                pass: 'zbqd gtac dcjt yacd',
+            },
+        });
+
+        let variableTexto = '';
+        if (EstadoEnvioDescripcion == null) {
+            variableTexto = `Su nuevo estado de envío es ${estadoEnvio}`;
+        } else {
+            variableTexto = `Su nuevo estado de envío es ${estadoEnvio} y la descripción para este es ${EstadoEnvioDescripcion.descripcion}`;
         }
 
         const mailOptions = {
             from: 'zsantiagohenao@gmail.com',
-            to: usuario.correo,
-            subject: 'Recuperación de contraseña',
-            text: variableTexto
+            to: envio.correoUsuario, 
+            subject: 'Actualización de estado de envío',
+            text: variableTexto,
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
@@ -184,9 +187,10 @@ const enviosModificarEstadoPost = async (req, res) => {
         res.json({ msg: 'Estado de envío actualizado correctamente', envio });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ msg: 'Error al cambiar el estado de un envío' });
-    }
+        res.status(500).json({ msg: 'Error al cambiar el estado de un envío' });
+    }
 };
+
 
 module.exports = {
     enviosGet,
