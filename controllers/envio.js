@@ -126,71 +126,70 @@ const EnviosDetalle = async (req, res = response) => {
 const enviosModificarEstadoPost = async (req, res) => {
     const { id_envio } = req.params;
     const { estadoEnvio, EstadoEnvioDescripcion } = req.body;
-
+  
     try {
-        const envio = await Envio.findOneAndUpdate(
-            { _id: id_envio },
-            { estadoEnvio },
-            { new: true }
-        );
-
-        if (!envio) {
-            return res.status(404).json({ msg: 'Envío no encontrado' });
-        }
-
-        if (EstadoEnvioDescripcion != null) {
-            const descripcionExistente = await EstadoEnvio.findOne({ Envio: envio._id });
-            if (descripcionExistente) {
-                descripcionExistente.EstadoEnvio.push(EstadoEnvioDescripcion);
-                await descripcionExistente.save();
-            } else {
-                const estadoEnvioDescripcion = new EstadoEnvio({
-                    Envio: envio._id,
-                    EstadoEnvio: [EstadoEnvioDescripcion],
-                });
-                await estadoEnvioDescripcion.save();
-            }
-        }
-
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: 'zsantiagohenao@gmail.com',
-                pass: 'zbqd gtac dcjt yacd',
-            },
-        });
-
-        let variableTexto = '';
-        if (EstadoEnvioDescripcion == null) {
-            variableTexto = `Su nuevo estado de envío es ${estadoEnvio}`;
+      const envio = await Envio.findOneAndUpdate(
+        { _id: id_envio },
+        { estadoEnvio },
+        { new: true }
+      );
+  
+      if (!envio) {
+        return res.status(404).json({ msg: 'Envío no encontrado' });
+      }
+  
+      if (EstadoEnvioDescripcion != null && EstadoEnvioDescripcion.length > 0) {
+        const descripcionExistente = await EstadoEnvio.findOne({ Envio: envio._id });
+        if (descripcionExistente) {
+          descripcionExistente.EstadoEnvio.push(EstadoEnvioDescripcion);
+          await descripcionExistente.save();
         } else {
-            variableTexto = `Su nuevo estado de envío es ${estadoEnvio} y la descripción para este es ${EstadoEnvioDescripcion.descripcion}`;
+          const estadoEnvioDescripcion = new EstadoEnvio({
+            Envio: envio._id,
+            EstadoEnvio: [EstadoEnvioDescripcion],
+          });
+          await estadoEnvioDescripcion.save();
         }
-
-        const mailOptions = {
-            from: 'zsantiagohenao@gmail.com',
-            to: envio.correoUsuario, 
-            subject: 'Actualización de estado de envío',
-            text: variableTexto,
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error(error);
-                return res.status(500).json({ msg: 'Error al enviar el correo' });
-            } else {
-                console.log('Correo enviado: ' + info.response);
-                return res.json({ msg: 'Correo enviado correctamente' });
-            }
-        });
-
-        res.json({ msg: 'Estado de envío actualizado correctamente', envio });
+      }
+  
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'zsantiagohenao@gmail.com',
+          pass: 'zbqd gtac dcjt yacd',
+        },
+      });
+  
+      let variableTexto = ``;
+      if (EstadoEnvioDescripcion == null || EstadoEnvioDescripcion.length === 0) {
+        variableTexto = `Su nuevo estado de envío es ${estadoEnvio}`;
+      } else {
+        variableTexto = `Su nuevo estado de envío es ${estadoEnvio} y la descripción para este es ${EstadoEnvioDescripcion[0].descripcion}`;
+      }
+  
+      const mailOptions = {
+        from: 'zsantiagohenao@gmail.com',
+        to: envio.correoUsuario, 
+        subject: 'Actualización de estado de envío',
+        text: variableTexto,
+      };
+  
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ msg: 'Error al enviar el correo' });
+        } else {
+          console.log('Correo enviado: ' + info.response);
+          return res.json({ msg: 'Correo enviado correctamente' });
+        }
+      });
+  
+      res.json({ msg: 'Estado de envío actualizado correctamente', envio });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ msg: 'Error al cambiar el estado de un envío' });
+      console.error(error);
+      res.status(500).json({ msg: 'Error al cambiar el estado de un envío' });
     }
-};
-
+  };
 
 module.exports = {
     enviosGet,
