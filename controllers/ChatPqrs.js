@@ -116,10 +116,10 @@ const finalizarChat = async (req, res) => {
 const chatPqrsPostCrear = async (req, res) => {
     const { id_SistemaChat } = req.params;
     try {
-        let chatExistente = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat});
+        let chatExistente = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat });
 
         if (chatExistente) {
-            return res.status(501);
+            return res.status(400).json({ message: 'Chat already exists' });
         }
 
         const nuevoChat = new ChatMensaje({
@@ -130,11 +130,12 @@ const chatPqrsPostCrear = async (req, res) => {
 
         await nuevoChat.save();
 
-        res.status(201);
+        res.status(201).json({ message: 'Chat created successfully' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+
 
 module.exports = {
     chatPqrsGet,
