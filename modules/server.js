@@ -5,11 +5,6 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const WebSocket = require('ws');
 
-const {
-    obtenerRolUsuario,
-} = require('../controllers/usuario');
-
-  
 class Server {
     constructor() {
         this.app = express();
@@ -44,7 +39,7 @@ class Server {
         this.app.use(this.enviosPath, require("../routes/tipoPqrs"));
         this.app.use(this.enviosPath, require("../routes/chatPqrs"));
         this.app.use(this.enviosPath, require("../routes/chatPqrsMensajes"));
-    }    
+    }
 
     async connectDb() {
         try {
@@ -59,20 +54,16 @@ class Server {
     configureWebSocket() {
         this.wss.on('connection', (ws) => {
             console.log('Nuevo cliente conectado');
+            console.log(`Clientes conectados: ${this.wss.clients.size}`);
         
             ws.on('message', async (message) => {
                 try {
                     const data = JSON.parse(message);
-                    const rol = await obtenerRolUsuario(data.id_usuario);
-        
-                    if (rol) {
-                        data.rol = rol;
-                        this.wss.clients.forEach((client) => {
-                            if (client.readyState === WebSocket.OPEN) {
-                                client.send(JSON.stringify(data));
-                            }
-                        });
-                    }
+                    this.wss.clients.forEach((client) => {
+                        if (client.readyState === WebSocket.OPEN) {
+                            client.send(JSON.stringify(data));
+                        }
+                    });
                 } catch (error) {
                     console.error('Error al procesar el mensaje:', error);
                 }
@@ -80,10 +71,14 @@ class Server {
         
             ws.on('close', () => {
                 console.log('Cliente desconectado');
+                console.log(`Clientes conectados: ${this.wss.clients.size}`);
             });
-        });        
+        });
+
+        this.wss.on('error', (error) => {
+            console.error('Error en el servidor WebSocket:', error);
+        });
     }
-    
 }
 
 module.exports = Server;

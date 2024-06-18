@@ -179,24 +179,21 @@ const usuarioUnico = async (req, res = response) => {
     }
 };
 
-async function obtenerRolUsuario(correo) {
+const obtenerRolUsuarioApi = async (req, res = response) => {
+    const { correo } = req.params;
     try {
-        const usuario = await Usuario.findOne({ correo });
-        if (usuario) {
-            const empleado = usuario.rol.permisos.some((permiso) => permiso.nombrePermiso === 'empleado');
-            const cliente = usuario.rol.permisos.some((permiso) => permiso.nombrePermiso === 'cliente');
-
-            if (empleado) {
-                return 'empleado';
-            } else if (cliente) {
-                return 'cliente';
-            }
+        const rol = await obtenerRolUsuario(correo);
+        if (rol) {
+            return res.json({ rol });
+        } else {
+            return res.status(404).json({ msg: 'Usuario no encontrado o sin roles' });
         }
     } catch (error) {
         console.error('Error al obtener el rol del usuario:', error);
+        return res.status(500).json({ msg: 'Error interno del servidor' });
     }
-    return null;
-}
+};
+
 
 module.exports = {
     usuarioGet,
@@ -207,5 +204,5 @@ module.exports = {
     recuperarPassword,
     restablecerPassword,
     usuarioUnico,
-    obtenerRolUsuario,
+    obtenerRolUsuarioApi,
 }
