@@ -58,19 +58,23 @@ class Server {
             ws.on('message', (message) => {
                 console.log(`Mensaje recibido: ${message}`);
     
-                // Aquí puedes procesar el mensaje y enviarlo a todos los clientes
-                this.wss.clients.forEach((client) => {
-                    if (client.readyState === WebSocket.OPEN) {
-                        client.send(message);
-                    }
-                });
+                try {
+                    const data = JSON.parse(message);
+                    this.wss.clients.forEach((client) => {
+                        if (client.readyState === WebSocket.OPEN) {
+                            client.send(JSON.stringify(data));
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error al procesar el mensaje:', error);
+                }
             });
     
             ws.on('close', () => {
                 console.log('Cliente desconectado');
             });
         });
-    }    
+    }
 }
 
 module.exports = Server;
