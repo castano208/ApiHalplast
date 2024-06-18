@@ -5,6 +5,11 @@ const bodyParser = require('body-parser');
 const http = require('http');
 const WebSocket = require('ws');
 
+const {
+    obtenerRolUsuario,
+  } = require('../controllers/usuario');
+
+  
 class Server {
     constructor() {
         this.app = express();
@@ -52,28 +57,33 @@ class Server {
     }
 
     configureWebSocket() {
-        this.wss.on('connection', (ws) => {
+        wss.on('connection', (ws) => {
             console.log('Nuevo cliente conectado');
-    
-            ws.on('message', (message) => {
+        
+            ws.on('message', async (message) => {
                 console.log(`Mensaje recibido: ${message}`);
-    
+        
                 try {
                     const data = JSON.parse(message);
-                    this.wss.clients.forEach((client) => {
-                        if (client.readyState === WebSocket.OPEN) {
-                            client.send(JSON.stringify(data));
-                        }
-                    });
+                    const rol = await obtenerRolUsuario(data.id_usuario);
+        
+                    if (rol) {
+                        data.rol = rol;
+                        wss.clients.forEach((client) => {
+                            if (client.readyState === WebSocket.OPEN) {
+                                client.send(JSON.stringify(data));
+                            }
+                        });
+                    }
                 } catch (error) {
                     console.error('Error al procesar el mensaje:', error);
                 }
             });
-    
+        
             ws.on('close', () => {
                 console.log('Cliente desconectado');
             });
-        });
+        });        
     }
 }
 

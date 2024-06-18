@@ -180,6 +180,25 @@ const usuarioUnico = async (req, res = response) => {
     }
 };
 
+async function obtenerRolUsuario(correo) {
+    try {
+        const usuario = await Usuario.findOne({ correo });
+        if (usuario) {
+            const empleado = usuario.rol.permisos.some((permiso) => permiso.nombrePermiso === 'empleado');
+            const cliente = usuario.rol.permisos.some((permiso) => permiso.nombrePermiso === 'cliente');
+
+            if (empleado) {
+                return 'empleado';
+            } else if (cliente) {
+                return 'cliente';
+            }
+        }
+    } catch (error) {
+        console.error('Error al obtener el rol del usuario:', error);
+    }
+    return null;
+}
+
 module.exports = {
     usuarioGet,
     usuarioPost,
@@ -189,4 +208,5 @@ module.exports = {
     recuperarPassword,
     restablecerPassword,
     usuarioUnico,
+    obtenerRolUsuario,
 }
