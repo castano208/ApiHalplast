@@ -14,8 +14,6 @@ const chatPqrsGet = async (req, res) => {
 const chatPqrsPost = async (req, res) => {
     const { id_SistemaChat } = req.params;
     const { mensaje, id_usuario } = req.body;
-    console.log(mensaje);
-    console.log(id_usuario);
     try {
       const chatMensaje = await ChatMensaje.findOne({ SistemaChat: id_SistemaChat });
   

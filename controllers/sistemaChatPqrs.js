@@ -94,7 +94,6 @@ const agregarFechaChatPqrs = async (req, res = response) => {
                 console.error(error);
                 return res.status(500).json({ msg: 'Error al enviar el correo' });
             } else {
-                console.log('Correo enviado: ' + info.response);
                 return res.json({ msg: 'Correo enviado correctamente'});
             }
         });

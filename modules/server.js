@@ -61,8 +61,6 @@ class Server {
             console.log('Nuevo cliente conectado');
         
             ws.on('message', async (message) => {
-                console.log(`Mensaje recibido: ${message}`);
-        
                 try {
                     const data = JSON.parse(message);
                     const rol = await obtenerRolUsuario(data.id_usuario);
