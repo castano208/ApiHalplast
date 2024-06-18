@@ -57,7 +57,7 @@ class Server {
     }
 
     configureWebSocket() {
-        wss.on('connection', (ws) => {
+        this.wss.on('connection', (ws) => {
             console.log('Nuevo cliente conectado');
         
             ws.on('message', async (message) => {
