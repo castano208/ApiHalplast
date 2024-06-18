@@ -16,7 +16,7 @@ router.get('/usuarios', usuarioGet);
 
 router.get('/usuarios/:id_usuario', usuarioUnico);
 
-router.get('/usuario/rol/:id_usuario', obtenerRolUsuarioApi);
+router.get('/usuario/rol/:correo', obtenerRolUsuarioApi);
 
 router.post('/usuarios', usuarioPost);
 

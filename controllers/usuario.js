@@ -184,8 +184,10 @@ const obtenerRolUsuarioApi = async (req, res = response) => {
         const { correo } = req.params;
         const usuario = await Usuario.findOne({ correo: correo });
         if (usuario) {
-            const empleado = usuario.rol.permisos.some((permiso) => permiso.nombrePermiso === 'empleado');
-            const cliente = usuario.rol.permisos.some((permiso) => permiso.nombrePermiso === 'cliente');
+            const permisos = usuario.rol.permisos;
+
+            const empleado = permisos.some((permiso) => permiso.nombrePermiso === 'empleado');
+            const cliente = permisos.some((permiso) => permiso.nombrePermiso === 'cliente');
 
             if (empleado) {
                 return res.json({ rol: 'empleado' });
