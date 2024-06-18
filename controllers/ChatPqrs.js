@@ -45,15 +45,17 @@ const chatPqrsPost = async (req, res) => {
   
       if (usuarioCliente) {
         chatMensaje.mensajeCliente.push({ mensaje });
+        await chatMensaje.save();
+        res.status(201).json({ message: "Mensaje guardado correctamente", _id: chatMensaje.mensajeCliente[0]._id }); 
       } else if (usuarioEmpleado) {
         chatMensaje.mensajeEmpleado.push({ mensaje });
+        await chatMensaje.save();
+        res.status(201).json({ message: "Mensaje guardado correctamente", _id: chatMensaje.mensajeEmpleado[0]._id }); 
       } else {
         return res.status(400).json({ message: "Tipo de mensaje no válido" });
       }
   
-      await chatMensaje.save();
-  
-      res.status(201);
+
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

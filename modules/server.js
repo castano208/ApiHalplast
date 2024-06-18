@@ -7,7 +7,7 @@ const WebSocket = require('ws');
 
 const {
     obtenerRolUsuario,
-  } = require('../controllers/usuario');
+} = require('../controllers/usuario');
 
   
 class Server {
@@ -57,7 +57,7 @@ class Server {
     }
 
     configureWebSocket() {
-        this.wss.on('connection', (ws) => {
+        wss.on('connection', (ws) => {
             console.log('Nuevo cliente conectado');
         
             ws.on('message', async (message) => {
@@ -69,7 +69,7 @@ class Server {
         
                     if (rol) {
                         data.rol = rol;
-                        this.wss.clients.forEach((client) => {
+                        wss.clients.forEach((client) => {
                             if (client.readyState === WebSocket.OPEN) {
                                 client.send(JSON.stringify(data));
                             }
