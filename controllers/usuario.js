@@ -182,21 +182,25 @@ const usuarioUnico = async (req, res = response) => {
 const obtenerRolUsuarioApi = async (req, res = response) => {
     try {
         const { correo } = req.params;
-        const usuario = await Usuario.findOne({ correo : correo });
+        const usuario = await Usuario.findOne({ correo: correo });
         if (usuario) {
             const empleado = usuario.rol.permisos.some((permiso) => permiso.nombrePermiso === 'empleado');
             const cliente = usuario.rol.permisos.some((permiso) => permiso.nombrePermiso === 'cliente');
 
             if (empleado) {
-                return 'empleado';
+                return res.json({ rol: 'empleado' });
             } else if (cliente) {
-                return 'cliente';
+                return res.json({ rol: 'cliente' });
+            } else {
+                return res.json({ rol: 'sin rol específico' });
             }
+        } else {
+            return res.status(404).json({ msg: 'Usuario no encontrado' });
         }
     } catch (error) {
         console.error('Error al obtener el rol del usuario:', error);
+        return res.status(500).json({ msg: 'Error al obtener el rol del usuario' });
     }
-    return null;
 };
 
 module.exports = {
