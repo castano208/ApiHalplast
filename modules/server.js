@@ -69,7 +69,7 @@ class Server {
         
                     if (rol) {
                         data.rol = rol;
-                        wss.clients.forEach((client) => {
+                        this.wss.clients.forEach((client) => {
                             if (client.readyState === WebSocket.OPEN) {
                                 client.send(JSON.stringify(data));
                             }
@@ -85,6 +85,7 @@ class Server {
             });
         });        
     }
+    
 }
 
 module.exports = Server;
