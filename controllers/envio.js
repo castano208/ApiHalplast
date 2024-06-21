@@ -139,16 +139,24 @@ const enviosModificarEstadoPost = async (req, res) => {
             return res.status(404).json({ msg: 'Envío no encontrado' });
         }
 
-        // Verificar si EstadoEnvioDescripcion está presente y no es un objeto vacío
-        if (EstadoEnvioDescripcion && Object.keys(EstadoEnvioDescripcion).length > 0) {
+        // Verificar si EstadoEnvioDescripcion está presente y es válido
+        if (EstadoEnvioDescripcion && EstadoEnvioDescripcion.motivo) {
             let estadoEnvioDescripcion = await EstadoEnvio.findOne({ Envio: envio._id });
 
             if (estadoEnvioDescripcion) {
-                estadoEnvioDescripcion.EstadoEnvio.push(EstadoEnvioDescripcion);
+                estadoEnvioDescripcion.EstadoEnvio.push({
+                    motivo: EstadoEnvioDescripcion.motivo,
+                    descripcion: EstadoEnvioDescripcion.descripcion || 'Sin descripción',
+                    timestamp: Date.now(),
+                });
             } else {
                 estadoEnvioDescripcion = new EstadoEnvio({
                     Envio: envio._id,
-                    EstadoEnvio: [EstadoEnvioDescripcion],
+                    EstadoEnvio: [{
+                        motivo: EstadoEnvioDescripcion.motivo,
+                        descripcion: EstadoEnvioDescripcion.descripcion || 'Sin descripción',
+                        timestamp: Date.now(),
+                    }],
                 });
             }
 
