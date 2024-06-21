@@ -129,6 +129,29 @@ const agregarEmpleadoChatPqrs = async (req, res = response) => {
             body: { estado }
         };
 
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'zsantiagohenao@gmail.com',
+                pass: 'mpuc xxbc buhy gswb'
+            }
+        });
+        const mailOptions = {
+            from: 'zsantiagohenao@gmail.com',
+            to: chatPqrs.cliente,
+            subject: 'Chat PQRS Halplast',
+            text: `Su chat se encuentra actualmente activo. Inicie sesión en la aplicación y en la parte izquierda del menú podrá visualizar una opción con el nombre del chat. Presione esta opción para poder chatear con la persona encargada de su caso.`
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ msg: 'Error al enviar el correo' });
+            } else {
+                return res.json({ msg: 'Correo enviado correctamente'});
+            }
+        });
+
         await agregarFechaChatPqrs(agregarFechaReq, res);
 
         res.json({ msg: 'Empleado agregado exitosamente'});

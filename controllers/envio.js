@@ -139,7 +139,6 @@ const enviosModificarEstadoPost = async (req, res) => {
             return res.status(404).json({ msg: 'Envío no encontrado' });
         }
 
-        // Verificar si EstadoEnvioDescripcion está presente y es válido
         if (EstadoEnvioDescripcion && EstadoEnvioDescripcion.motivo) {
             let estadoEnvioDescripcion = await EstadoEnvio.findOne({ Envio: envio._id });
 
