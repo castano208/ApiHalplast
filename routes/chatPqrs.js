@@ -13,7 +13,7 @@ const {
 
 router.get('/chatPqrs', sistemaChatPqrsGet);
 
-router.get('/chatPqrs/estado', ultimoEstadoChatPqrs);
+router.get('/chatPqrs/estado/:id_ChatPqrs', ultimoEstadoChatPqrs);
 
 router.get('/chatPqrs/unico/:id_Usuario', SistemaChatPqrsGetUnico);
 
